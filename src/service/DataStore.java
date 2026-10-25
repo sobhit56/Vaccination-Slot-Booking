@@ -331,6 +331,7 @@ public class DataStore {
                 String pname = JsonUtils.getString(p, "patientName");
                 int age = JsonUtils.getInt(p, "patientAge", 30);
                 String phone = JsonUtils.getString(p, "patientPhone");
+                String email = JsonUtils.getString(p, "patientEmail");
                 String cid = JsonUtils.getString(p, "centerId");
                 String cname = JsonUtils.getString(p, "centerName");
                 String pin = JsonUtils.getString(p, "pincode");
@@ -345,6 +346,7 @@ public class DataStore {
                 if (token != null && pid != null) {
                     Appointment appt = new Appointment(token, pid, pname, age, cid, cname, pin, vax, slotTime, date, dose, status != null ? status : "CONFIRMED", bookedAt != null ? bookedAt : "");
                     if (phone != null) appt.setPatientPhone(phone);
+                    if (email != null) appt.setPatientEmail(email);
                     if (vaccinatedAt != null) appt.setVaccinatedAt(vaccinatedAt);
                     fastLookup.indexAppointment(appt);
                 }

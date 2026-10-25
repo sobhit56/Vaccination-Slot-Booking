@@ -224,6 +224,7 @@ public class Main {
             String id = JsonUtils.getString(body, "id");
             int age = JsonUtils.getInt(body, "age", 30);
             String phone = JsonUtils.getString(body, "phone");
+            String email = JsonUtils.getString(body, "email");
             boolean hasComorbidity = JsonUtils.getBoolean(body, "hasComorbidity", false);
             String centerId = JsonUtils.getString(body, "centerId");
             String slotId = JsonUtils.getString(body, "slotId");
@@ -232,7 +233,7 @@ public class Main {
             String dose1Date = JsonUtils.getString(body, "dose1Date");
 
             BookingService.BookingResult result = bookingService.bookSlot(
-                id, name, age, phone, hasComorbidity, centerId, slotId, date, doseNumber, dose1Date
+                id, name, age, phone, email, hasComorbidity, centerId, slotId, date, doseNumber, dose1Date
             );
 
             sendJsonResponse(exchange, result.success ? 200 : 400, result.toJson());

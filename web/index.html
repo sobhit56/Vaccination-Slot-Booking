@@ -298,6 +298,12 @@
         </div>
 
         <div class="form-group">
+          <label for="form-email">Email Address (Receive Digital Pass & QR Code) *</label>
+          <input type="email" id="form-email" class="form-control" placeholder="name@example.com" required>
+          <div class="form-hint">Your official digital appointment pass will be delivered directly to this email inbox.</div>
+        </div>
+
+        <div class="form-group">
           <label for="form-pincode">Residential Pincode (Area Auto-Verification)</label>
           <input type="text" id="form-pincode" class="form-control" placeholder="Enter 6-digit Pincode (e.g. 110029, 560076)" maxlength="6" oninput="handleBookingPincodeInput()">
           <div id="booking-pincode-feedback" class="form-hint" style="color: var(--primary-dark); font-weight: 600; margin-top: 0.35rem; display: none;"></div>
@@ -356,6 +362,7 @@
         <div class="receipt-details">
           <div class="receipt-row"><span>Patient Name:</span><strong id="receipt-patient">--</strong></div>
           <div class="receipt-row"><span>Patient Mobile:</span><strong id="receipt-mobile-row">+91 --</strong></div>
+          <div class="receipt-row"><span>Email Pass:</span><strong id="receipt-email-row" style="color: var(--primary);">--</strong></div>
           <div class="receipt-row"><span>Govt Photo ID:</span><span id="receipt-id">--</span></div>
           <div class="receipt-row"><span>Vaccination Center:</span><strong id="receipt-center">--</strong></div>
           <div class="receipt-row"><span>Vaccine & Dose:</span><span id="receipt-vaccine" class="badge badge-vaccine">--</span></div>

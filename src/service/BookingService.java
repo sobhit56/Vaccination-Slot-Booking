@@ -123,6 +123,12 @@ public class BookingService {
     public BookingResult bookSlot(String patientId, String name, int age, String phone,
                                  boolean hasComorbidity, String centerId, String slotId, String date,
                                  int doseNumber, String dose1Date) {
+        return bookSlot(patientId, name, age, phone, "", hasComorbidity, centerId, slotId, date, doseNumber, dose1Date);
+    }
+
+    public BookingResult bookSlot(String patientId, String name, int age, String phone, String email,
+                                 boolean hasComorbidity, String centerId, String slotId, String date,
+                                 int doseNumber, String dose1Date) {
         long startTime = System.nanoTime();
         BookingResult result = new BookingResult();
 
@@ -234,6 +240,8 @@ public class BookingService {
                     slot.getTimeWindow(), appointmentDate, doseNumber, "CONFIRMED", timestamp
                 );
                 appt.setPatientPhone(cleanPhone);
+                String cleanEmail = (email != null) ? email.trim() : "";
+                appt.setPatientEmail(cleanEmail);
 
                 dataStore.saveAppointment(appt);
                 dataStore.saveCentersToDisk();
@@ -249,6 +257,16 @@ public class BookingService {
                     center.getName(), appt.getDate(), slot.getTimeWindow(),
                     appt.getVaccineType(), doseNumber
                 );
+
+                // Automatically dispatch official digital pass via Azure Email Service
+                if (!cleanEmail.isEmpty()) {
+                    AzureEmailService.sendAppointmentPassAsync(
+                        cleanEmail, patient.getName(), appt.getTokenId(),
+                        center.getName(), center.getAddress(), center.getPincode(),
+                        appt.getVaccineType(), doseNumber, appt.getDate(), slot.getTimeWindow(),
+                        cleanId
+                    );
+                }
             } else {
                 // Slot is FULL -> Place in Max-Heap Priority Waitlist
                 PriorityWaitlist.WaitlistEntry entry = new PriorityWaitlist.WaitlistEntry(

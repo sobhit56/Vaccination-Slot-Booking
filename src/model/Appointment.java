@@ -16,6 +16,7 @@ public class Appointment {
     private String bookedAt;
     private String vaccinatedAt;
     private String patientPhone;
+    private String patientEmail;
 
     public Appointment(String tokenId, String patientId, String patientName, int patientAge,
                        String centerId, String centerName, String pincode, String vaccineType,
@@ -35,6 +36,7 @@ public class Appointment {
         this.bookedAt = bookedAt;
         this.vaccinatedAt = "";
         this.patientPhone = "";
+        this.patientEmail = "";
     }
 
     public String getTokenId() { return tokenId; }
@@ -43,6 +45,8 @@ public class Appointment {
     public int getPatientAge() { return patientAge; }
     public String getPatientPhone() { return patientPhone != null ? patientPhone : ""; }
     public void setPatientPhone(String phone) { this.patientPhone = phone; }
+    public String getPatientEmail() { return patientEmail != null ? patientEmail : ""; }
+    public void setPatientEmail(String email) { this.patientEmail = email; }
     public String getCenterId() { return centerId; }
     public String getCenterName() { return centerName; }
     public String getPincode() { return pincode; }
@@ -66,11 +70,11 @@ public class Appointment {
 
     public String toJson() {
         return String.format(
-            "{\"tokenId\":\"%s\",\"patientId\":\"%s\",\"patientName\":\"%s\",\"patientAge\":%d,\"patientPhone\":\"%s\"," +
+            "{\"tokenId\":\"%s\",\"patientId\":\"%s\",\"patientName\":\"%s\",\"patientAge\":%d,\"patientPhone\":\"%s\",\"patientEmail\":\"%s\"," +
             "\"centerId\":\"%s\",\"centerName\":\"%s\",\"pincode\":\"%s\",\"vaccineType\":\"%s\"," +
             "\"slotTime\":\"%s\",\"date\":\"%s\",\"doseNumber\":%d,\"status\":\"%s\"," +
             "\"bookedAt\":\"%s\",\"vaccinatedAt\":\"%s\",\"qrPayload\":\"%s\"}",
-            tokenId, patientId, escapeJson(patientName), patientAge, getPatientPhone(),
+            tokenId, patientId, escapeJson(patientName), patientAge, getPatientPhone(), getPatientEmail(),
             centerId, escapeJson(centerName), pincode, vaccineType,
             slotTime, date, doseNumber, status,
             bookedAt, vaccinatedAt, escapeJson(getQrPayload())

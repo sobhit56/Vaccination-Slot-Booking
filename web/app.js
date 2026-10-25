@@ -550,6 +550,7 @@ async function submitBooking(e) {
   const id = document.getElementById('form-id').value.trim();
   const age = parseInt(document.getElementById('form-age').value);
   const phone = document.getElementById('form-phone').value.trim();
+  const email = document.getElementById('form-email')?.value.trim() || '';
   const hasComorbidity = document.getElementById('form-comorbidity').checked;
   const centerId = document.getElementById('form-center-id').value;
   const slotId = document.getElementById('form-slot-id').value;
@@ -568,8 +569,13 @@ async function submitBooking(e) {
     return;
   }
 
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showToast('Invalid Email', 'Please enter a valid email address to receive your appointment pass.', 'warning');
+    return;
+  }
+
   const payload = {
-    name, id: cleanId, age, phone: cleanPhone, hasComorbidity, centerId, slotId,
+    name, id: cleanId, age, phone: cleanPhone, email, hasComorbidity, centerId, slotId,
     doseNumber, dose1Date,
     date: new Date().toISOString().split('T')[0]
   };
@@ -600,9 +606,9 @@ async function submitBooking(e) {
       );
       triggerSimulatedSms('sms', 'Priority Waitlist Alert', `Dear ${name}, you are placed on the Priority Waitlist (#${result.waitlistPosition}) for ${result.waitlist ? result.waitlist.centerName : 'the selected center'}. You will receive an alert as soon as a slot opens.`);
     } else {
-      showToast('Appointment Confirmed', `Slot reserved for ${name}! Token: ${result.appointment.tokenId}`, 'success');
+      showToast('Appointment Confirmed', `Slot reserved for ${name}! Token: ${result.appointment.tokenId}${email ? '. Digital pass sent to ' + email : ''}`, 'success');
       showReceiptModal(result.appointment);
-      triggerSimulatedSms('sms', 'Vaccination Pass Confirmed', `Dear ${name}, your Dose ${doseNumber} appointment at ${result.appointment.centerName} is CONFIRMED for ${result.appointment.date} (${result.appointment.slotTime}). Token: ${result.appointment.tokenId}. Please bring your original Aadhaar/ID.`);
+      triggerSimulatedSms('sms', 'Vaccination Pass Confirmed', `Dear ${name}, your Dose ${doseNumber} appointment at ${result.appointment.centerName} is CONFIRMED for ${result.appointment.date} (${result.appointment.slotTime}). Token: ${result.appointment.tokenId}. Digital pass emailed.`);
     }
   } catch (err) {
     console.error('Booking submission failed:', err);
@@ -624,6 +630,10 @@ function showReceiptModal(appt) {
 
   const phoneRow = document.getElementById('receipt-mobile-row');
   if (phoneRow) phoneRow.innerText = cleanPhone ? `+91 ${cleanPhone}` : 'Registered Mobile';
+
+  const patientEmail = appt.patientEmail || document.getElementById('form-email')?.value.trim() || '';
+  const emailRow = document.getElementById('receipt-email-row');
+  if (emailRow) emailRow.innerText = patientEmail || 'Dispatched to Email';
 
   const phoneDisp = document.getElementById('receipt-phone-display');
   if (phoneDisp) phoneDisp.innerText = cleanPhone || 'Mobile';
