@@ -1,8 +1,9 @@
 # 🏥 Vaccination Slot Booking System (VaxSlot Connect)
 
-A production-grade, full-featured **Vaccination Slot Booking & Hospital Capacity Management System** built for college and engineering evaluations. It combines **in-memory Data Structures & Algorithms (DSA) in Java 25** with a **modern, responsive web interface (HTML5, CSS3, JavaScript)**, live government & cloud APIs, and local disk JSON persistence.
+A production-grade, full-featured **Vaccination Slot Booking & Hospital Capacity Management System** built for college and engineering evaluations. It combines **in-memory Data Structures & Algorithms (DSA) in Java 25** with a **modern, responsive web interface (HTML5, CSS3, JavaScript)**, Microsoft Azure Cloud hosting, and local disk JSON persistence.
 
-> 📋 **Project Version:** `v1.3.0` | 📝 **Detailed History:** See [CHANGELOG.md](file:///c:/Users/sumit%20kumar/OneDrive/Desktop/Vaccination%20Slot%20Booking/CHANGELOG.md)
+> 🌐 **Live Public URL:** [https://vaxslot-india-sobhit.azurewebsites.net](https://vaxslot-india-sobhit.azurewebsites.net)  
+> 📋 **Project Version:** `v1.4.0` | 📝 **Detailed History:** See [CHANGELOG.md](file:///c:/Users/sumit%20kumar/OneDrive/Desktop/Vaccination%20Slot%20Booking/CHANGELOG.md)
 
 ---
 
@@ -10,10 +11,11 @@ A production-grade, full-featured **Vaccination Slot Booking & Hospital Capacity
 
 | Version | Release Date | Key Milestones & Capabilities Added |
 | :--- | :--- | :--- |
-| **`v1.0.0`** | 2026-10-24 | Core Java HTTP Server, Trie Search, Max-Heap Priority Waitlist, Mutex Concurrency, Admin Verification Desk |
-| **`v1.1.0`** | 2026-10-25 | CoWIN-Style 3-Step UI, Live Indian Postal Pincode Auto-Resolution API, Viva DSA Inspector Drawer |
-| **`v1.2.0`** | 2026-10-25 | "Track My Booking" Self-Service Portal, 1-Click Slot Rescheduling, Aadhaar & Dose Interval Validation Guards |
+| **`v1.4.0`** | 2026-10-25 | **Microsoft Azure Live Cloud Hosting**, Aarogya AI Clinical Assistant, 32 Pan-India Hospitals, Dynamic Patient Storage |
 | **`v1.3.0`** | 2026-10-25 | Fast2SMS Gateway Integration, Direct WhatsApp & SMS Pass Generation, Hospital Walk-in Desk, Live Low-Stock Inventory Monitor |
+| **`v1.2.0`** | 2026-10-25 | "Track My Booking" Self-Service Portal, 1-Click Slot Rescheduling, Aadhaar & Dose Interval Validation Guards |
+| **`v1.1.0`** | 2026-10-25 | CoWIN-Style 3-Step UI, Live Indian Postal Pincode Auto-Resolution API, Viva DSA Inspector Drawer |
+| **`v1.0.0`** | 2026-10-24 | Core Java HTTP Server, Trie Search, Max-Heap Priority Waitlist, Mutex Concurrency, Admin Verification Desk |
 
 ---
 

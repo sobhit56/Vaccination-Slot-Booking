@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.4.0] - 2026-10-25
+### Added
+- **Live Microsoft Azure Cloud Deployment**:
+  - Provisioned Azure App Service Linux (Basic B1 Plan) in UAE North under the active **Azure for Students** subscription.
+  - Live public endpoint: `https://vaxslot-india-sobhit.azurewebsites.net`.
+  - Configured dynamic port binding (`$PORT` / `WEBSITES_PORT`) and automated Java runtime orchestration.
+- **Aarogya AI Clinical Healthcare Assistant (`AzureAiService.java`)**:
+  - Interactive clinical AI assistant powered by Azure OpenAI architecture (`/api/ai/chat`).
+  - Floating clinical drawer in the UI answering queries on vaccine dosage intervals, comorbidity safety (diabetes, hypertension), and post-vaccination side effects according to MoHFW guidelines.
+- **Pan-India Vaccination Network**:
+  - Expanded from 5 local clinics to 32 premier government & multi-speciality medical institutions across 16 States/UTs (Delhi, Mumbai, Bengaluru, Kolkata, Chennai, Hyderabad, Lucknow, Patna, Jaipur, Ahmedabad, Chandigarh, Pune, Kochi, Bhopal, Bhubaneswar, Guwahati, Srinagar).
+  - Authentic postal pincodes matching the Indian Postal API and real GPS coordinates.
+- **Clean Slate Dynamic Patient Registration**:
+  - Cleared all pre-seeded dummy records. Both `patients.json` and `appointments.json` start fresh (`[]`).
+  - Patient profiles and clinical priority scores are generated dynamically on demand.
+- **Self-Contained Executable Packaging (`app.jar`)**:
+  - Hybrid static asset handler serving from both local disk and JAR classpath resources for cloud portability.
+
+---
+
 ## [1.3.0] - 2026-10-25
 ### Added
 - **Fast2SMS Gateway Integration (`SmsService.java`)**:

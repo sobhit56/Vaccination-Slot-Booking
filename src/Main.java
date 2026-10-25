@@ -5,6 +5,7 @@ import dsa.PriorityWaitlist;
 import dsa.Trie;
 import model.Appointment;
 import model.Center;
+import service.AzureAiService;
 import service.BookingService;
 import service.DataStore;
 import util.JsonUtils;
@@ -17,18 +18,30 @@ import java.nio.file.Files;
 import java.util.*;
 
 public class Main {
-    private static final int PORT = 8080;
     private static DataStore dataStore;
     private static BookingService bookingService;
+    private static AzureAiService azureAiService;
     private static final Set<String> activeAdminSessions = Collections.synchronizedSet(new HashSet<>());
     private static final String ADMIN_USER = "admin";
     private static final String ADMIN_PASS = "admin123";
 
+    private static int getPort() {
+        String envPort = System.getenv("PORT");
+        if (envPort != null && !envPort.trim().isEmpty()) {
+            try {
+                return Integer.parseInt(envPort.trim());
+            } catch (NumberFormatException ignored) {}
+        }
+        return 8080;
+    }
+
     public static void main(String[] args) throws IOException {
         dataStore = new DataStore();
         bookingService = new BookingService(dataStore);
+        azureAiService = new AzureAiService();
 
-        HttpServer server = HttpServer.create(new InetSocketAddress(PORT), 0);
+        int port = getPort();
+        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
         // API Endpoints
         server.createContext("/api/centers", new CentersHandler());
@@ -47,6 +60,7 @@ public class Main {
         server.createContext("/api/reschedule", new RescheduleHandler());
         server.createContext("/api/admin/slot/capacity", new SlotCapacityHandler());
         server.createContext("/api/admin/walkin", new WalkinHandler());
+        server.createContext("/api/ai/chat", new AiChatHandler());
 
         // Static Web Files (HTML, CSS, JS)
         server.createContext("/", new StaticFileHandler());
@@ -57,9 +71,10 @@ public class Main {
         System.out.println("==================================================================");
         System.out.println(" 🏥 VACCINATION SLOT BOOKING SYSTEM (DSA-POWERED JAVA SERVER)");
         System.out.println("==================================================================");
-        System.out.println(" Server running at: http://localhost:" + PORT);
-        System.out.println(" Patient Portal:   http://localhost:" + PORT + "/index.html");
-        System.out.println(" Admin Portal:     http://localhost:" + PORT + "/admin.html");
+        System.out.println(" Server running at: http://localhost:" + port);
+        System.out.println(" Patient Portal:   http://localhost:" + port + "/index.html");
+        System.out.println(" Admin Portal:     http://localhost:" + port + "/admin.html");
+        System.out.println(" Azure AI Active:  " + (azureAiService.isConfigured() ? "Yes (Cloud Connected)" : "Local Clinical Advisor Mode"));
         System.out.println(" Data directory:   data/ (Centers, Patients, Bookings)");
         System.out.println(" Press Ctrl+C to stop the server.");
         System.out.println("==================================================================");
@@ -74,8 +89,19 @@ public class Main {
                 path = "/index.html";
             }
 
+            byte[] bytes = null;
             File file = new File("web" + path);
-            if (!file.exists() || file.isDirectory()) {
+            if (file.exists() && !file.isDirectory()) {
+                bytes = Files.readAllBytes(file.toPath());
+            } else {
+                InputStream is = Main.class.getResourceAsStream("/web" + path);
+                if (is != null) {
+                    bytes = is.readAllBytes();
+                    is.close();
+                }
+            }
+
+            if (bytes == null) {
                 String response = "404 Not Found";
                 exchange.sendResponseHeaders(404, response.length());
                 OutputStream os = exchange.getResponseBody();
@@ -92,7 +118,6 @@ public class Main {
             else if (path.endsWith(".png")) mime = "image/png";
             else if (path.endsWith(".svg")) mime = "image/svg+xml";
 
-            byte[] bytes = Files.readAllBytes(file.toPath());
             exchange.getResponseHeaders().set("Content-Type", mime);
             exchange.sendResponseHeaders(200, bytes.length);
             OutputStream os = exchange.getResponseBody();
@@ -624,6 +649,38 @@ public class Main {
             baos.write(buffer, 0, len);
         }
         return baos.toString(StandardCharsets.UTF_8);
+    }
+
+    // --- API: Azure OpenAI Healthcare Assistant ("Aarogya AI") ---
+    static class AiChatHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            addCorsHeaders(exchange);
+            if ("OPTIONS".equalsIgnoreCase(exchange.getRequestMethod())) {
+                exchange.sendResponseHeaders(204, -1);
+                return;
+            }
+
+            if (!"POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+                sendJsonResponse(exchange, 405, "{\"error\": \"Method not allowed\"}");
+                return;
+            }
+
+            String body = readRequestBody(exchange);
+            String prompt = JsonUtils.getString(body, "prompt");
+            if (prompt == null || prompt.trim().isEmpty()) {
+                prompt = JsonUtils.getString(body, "message");
+            }
+
+            String advice = azureAiService.getClinicalAdvice(prompt);
+            boolean isConfigured = azureAiService.isConfigured();
+
+            String jsonResponse = String.format(
+                "{\"success\":true,\"reply\":\"%s\",\"azureConnected\":%b}",
+                JsonUtils.escape(advice), isConfigured
+            );
+            sendJsonResponse(exchange, 200, jsonResponse);
+        }
     }
 
     private static String getQueryParam(String query, String param) {

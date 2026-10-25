@@ -1,8 +1,1 @@
-[
-  {"id":"112233445566","name":"Rohan Gupta","age":42,"phone":"9876543210","hasComorbidity":false,"priorityScore":42},
-  {"id":"497610077072","name":"Ranjeet Kumar","age":20,"phone":"9876543210","hasComorbidity":false,"priorityScore":20},
-  {"id":"123456789110","name":"Khushi Singh","age":19,"phone":"7050565693","hasComorbidity":false,"priorityScore":19},
-  {"id":"5151244215465","name":"Shivam Singh","age":70,"phone":"9876543210","hasComorbidity":false,"priorityScore":140},
-  {"id":"123456789110","name":"Khushi Singh","age":19,"phone":"7050565693","hasComorbidity":false,"priorityScore":19},
-  {"id":"123456789012","name":"Sumit Kumar","age":68,"phone":"9876543210","hasComorbidity":false,"priorityScore":136}
-]
+[]

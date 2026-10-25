@@ -69,4 +69,8 @@ public class FastLookup {
     public Collection<Appointment> getAllAppointments() {
         return appointmentMap.values();
     }
+
+    public Collection<Patient> getAllPatients() {
+        return patientMap.values();
+    }
 }

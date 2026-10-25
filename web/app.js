@@ -306,9 +306,14 @@ function applyQuickFilter(filter) {
 
   // Find corresponding chip
   const chipMap = {
-    '110029': 'chip-delhi',
-    '560076': 'chip-blr',
-    '400050': 'chip-mum',
+    'Delhi': 'chip-delhi',
+    'Mumbai': 'chip-mum',
+    'Bengaluru': 'chip-blr',
+    'Kolkata': 'chip-kol',
+    'Chennai': 'chip-che',
+    'Hyderabad': 'chip-hyd',
+    'Lucknow': 'chip-lko',
+    'Patna': 'chip-pat',
     'Covishield': 'chip-covi',
     'Covaxin': 'chip-covax',
     'Pfizer': 'chip-pfizer'
@@ -1598,4 +1603,84 @@ function escapeHtml(str) {
 function escapeJs(str) {
   if (!str) return '';
   return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
+}
+
+// ==========================================================================
+// Aarogya AI (Azure OpenAI) Clinical Healthcare Assistant
+// ==========================================================================
+function toggleAiChat() {
+  const box = document.getElementById('ai-chat-box');
+  if (!box) return;
+  const isHidden = box.style.display === 'none' || !box.style.display;
+  box.style.display = isHidden ? 'flex' : 'none';
+  if (isHidden) {
+    const input = document.getElementById('ai-user-input');
+    if (input) input.focus();
+  }
+}
+
+function askAiPrompt(promptText) {
+  const input = document.getElementById('ai-user-input');
+  if (input) {
+    input.value = promptText;
+  }
+  submitAiMessage(promptText);
+}
+
+function handleAiChatSubmit(event) {
+  event.preventDefault();
+  const input = document.getElementById('ai-user-input');
+  if (!input) return;
+  const message = input.value.trim();
+  if (!message) return;
+  input.value = '';
+  submitAiMessage(message);
+}
+
+async function submitAiMessage(userText) {
+  const list = document.getElementById('ai-messages-list');
+  if (!list) return;
+
+  // Append User Bubble
+  const userMsgEl = document.createElement('div');
+  userMsgEl.className = 'ai-msg ai-msg-user';
+  userMsgEl.innerHTML = `<div class="ai-bubble">${escapeHtml(userText)}</div>`;
+  list.appendChild(userMsgEl);
+
+  // Append Thinking / Typing Bubble
+  const botMsgEl = document.createElement('div');
+  botMsgEl.className = 'ai-msg ai-msg-bot';
+  botMsgEl.innerHTML = `
+    <div class="ai-bubble" style="display: flex; align-items: center; gap: 0.4rem; color: #64748b;">
+      <span>🩺</span> <em>Analyzing clinical guidelines...</em>
+    </div>`;
+  list.appendChild(botMsgEl);
+  list.scrollTop = list.scrollHeight;
+
+  try {
+    const res = await fetch(`${API_BASE}/api/ai/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: userText })
+    });
+
+    const data = await res.json();
+    let reply = data.reply || 'Clinical guidance unavailable right now. Please try again.';
+
+    // Format basic markdown (bold, lists, linebreaks)
+    let formatted = escapeHtml(reply)
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/• (.*?)(?=(\n|$))/g, '<li style="margin-left: 1.1rem;">$1</li>')
+      .replace(/\n\n/g, '<br><br>')
+      .replace(/\n/g, '<br>');
+
+    botMsgEl.innerHTML = `<div class="ai-bubble">${formatted}</div>`;
+  } catch (err) {
+    botMsgEl.innerHTML = `
+      <div class="ai-bubble" style="color: #b91c1c;">
+        ⚠️ Unable to reach Azure AI service. Please verify your connection or consult your healthcare provider.
+      </div>`;
+  }
+
+  list.scrollTop = list.scrollHeight;
 }

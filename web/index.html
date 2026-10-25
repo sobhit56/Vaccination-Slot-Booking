@@ -122,10 +122,15 @@
       <!-- Quick Filter Chips -->
       <div class="quick-filter-bar">
         <span class="filter-label">Quick Filters:</span>
-        <span class="filter-chip active" id="chip-all" onclick="applyQuickFilter('all')">All Centers</span>
-        <span class="filter-chip" id="chip-delhi" onclick="applyQuickFilter('110029')">📍 Delhi (110029)</span>
-        <span class="filter-chip" id="chip-blr" onclick="applyQuickFilter('560076')">📍 Bengaluru (560076)</span>
-        <span class="filter-chip" id="chip-mum" onclick="applyQuickFilter('400050')">📍 Mumbai (400050)</span>
+        <span class="filter-chip active" id="chip-all" onclick="applyQuickFilter('all')">All Centers (India)</span>
+        <span class="filter-chip" id="chip-delhi" onclick="applyQuickFilter('Delhi')">📍 Delhi NCR</span>
+        <span class="filter-chip" id="chip-mum" onclick="applyQuickFilter('Mumbai')">📍 Mumbai</span>
+        <span class="filter-chip" id="chip-blr" onclick="applyQuickFilter('Bengaluru')">📍 Bengaluru</span>
+        <span class="filter-chip" id="chip-kol" onclick="applyQuickFilter('Kolkata')">📍 Kolkata</span>
+        <span class="filter-chip" id="chip-che" onclick="applyQuickFilter('Chennai')">📍 Chennai</span>
+        <span class="filter-chip" id="chip-hyd" onclick="applyQuickFilter('Hyderabad')">📍 Hyderabad</span>
+        <span class="filter-chip" id="chip-lko" onclick="applyQuickFilter('Lucknow')">📍 Lucknow</span>
+        <span class="filter-chip" id="chip-pat" onclick="applyQuickFilter('Patna')">📍 Patna</span>
         <span class="filter-chip" id="chip-covi" onclick="applyQuickFilter('Covishield')">💉 Covishield</span>
         <span class="filter-chip" id="chip-covax" onclick="applyQuickFilter('Covaxin')">💉 Covaxin</span>
         <span class="filter-chip" id="chip-pfizer" onclick="applyQuickFilter('Pfizer')">💉 Pfizer</span>
@@ -534,6 +539,60 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Floating Aarogya AI (Azure OpenAI) Assistant Button -->
+  <button id="ai-chat-btn" class="ai-floating-btn" onclick="toggleAiChat()" title="Ask Aarogya AI Clinical Assistant">
+    <span class="ai-btn-icon">🤖</span>
+    <span class="ai-btn-text">Ask Aarogya AI</span>
+    <span class="ai-btn-badge">Azure AI</span>
+  </button>
+
+  <!-- Aarogya AI Interactive Chat Window -->
+  <div id="ai-chat-box" class="ai-chat-drawer" style="display: none;">
+    <div class="ai-chat-header">
+      <div style="display: flex; align-items: center; gap: 0.6rem;">
+        <div class="ai-avatar">🩺</div>
+        <div>
+          <div style="font-weight: 700; font-size: 0.95rem; color: #0f172a; display: flex; align-items: center; gap: 0.35rem;">
+            Aarogya AI <span class="badge" style="background: #e0e7ff; color: #4338ca; font-size: 0.68rem; padding: 2px 6px;">Azure Cloud AI</span>
+          </div>
+          <div style="font-size: 0.73rem; color: #64748b;">Clinical Advisory & Vaccine Guidance (MoHFW)</div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="toggleAiChat()" style="font-size: 1.2rem; color: #64748b;">&times;</button>
+    </div>
+
+    <!-- Quick Question Suggestions -->
+    <div class="ai-suggestions-bar">
+      <span class="ai-chip" onclick="askAiPrompt('Is Covishield safe if I have diabetes and blood pressure?')">🩺 Diabetes & BP Safety</span>
+      <span class="ai-chip" onclick="askAiPrompt('When am I eligible to receive Dose 2?')">📅 Dose 2 Interval</span>
+      <span class="ai-chip" onclick="askAiPrompt('What to do if I get fever after vaccination?')">🌡️ Post-Vaccine Fever</span>
+      <span class="ai-chip" onclick="askAiPrompt('Which vaccine is recommended for youth aged 12-17?')">🧒 12-17 Youth Vaccines</span>
+    </div>
+
+    <!-- Messages Container -->
+    <div id="ai-messages-list" class="ai-messages-list">
+      <div class="ai-msg ai-msg-bot">
+        <div class="ai-bubble">
+          Namaste! 🙏 I am <strong>Aarogya AI</strong>, your clinical vaccine advisory assistant powered by <strong>Azure AI</strong>.<br><br>
+          You can ask me anything about:
+          <ul style="margin: 0.4rem 0 0.2rem 1.2rem; padding: 0; font-size: 0.82rem;">
+            <li>Eligibility & minimum dosage intervals</li>
+            <li>Safety with pre-existing conditions (diabetes, BP)</li>
+            <li>Managing mild side effects & aftercare</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Input Bar -->
+    <form class="ai-chat-input-bar" onsubmit="handleAiChatSubmit(event)">
+      <input type="text" id="ai-user-input" placeholder="Ask a medical or vaccine question..." autocomplete="off" required>
+      <button type="submit" id="ai-send-btn" class="ai-send-btn" title="Send message">
+        <span>➤</span>
+      </button>
+    </form>
   </div>
 
   <!-- Toast Notification Floating Container -->
