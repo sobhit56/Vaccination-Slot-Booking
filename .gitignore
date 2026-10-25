@@ -1,0 +1,33 @@
+# ==========================================
+# Java Build & Bytecode Artifacts
+# ==========================================
+bin/
+*.class
+
+# ==========================================
+# IDE & Editor Configuration
+# ==========================================
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+.project
+.classpath
+.settings/
+
+# ==========================================
+# Operating System & Cache Files
+# ==========================================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+*.tmp
+*.bak
+
+# ==========================================
+# Local Sensitive Secrets / Overrides
+# ==========================================
+.env
+.env.local

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff & Doctor Portal — VaxSlot Connect</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .table-container {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow-x: auto;
+      margin-top: 1rem;
+      box-shadow: var(--shadow-sm);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+    th {
+      background: #f8fafc;
+      padding: 0.85rem 1rem;
+      font-weight: 600;
+      color: #475569;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid #f1f5f9;
+      color: #1e293b;
+    }
+    tr:hover {
+      background: #f8fafc;
+    }
+    .cert-card {
+      border: 3px double #0284c7;
+      border-radius: 12px;
+      padding: 2rem;
+      background: #ffffff;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .cert-header {
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .login-container {
+      max-width: 440px;
+      margin: 3.5rem auto;
+      background: white;
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+    .admin-filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+    .admin-search-box {
+      flex: 1;
+      min-width: 260px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <a href="index.html" class="nav-brand">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+      </svg>
+      <span>VaxSlot Connect</span>
+      <span class="badge-dsa">Staff Portal</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html" class="nav-btn">← Public Portal</a>
+      <div id="admin-user-nav" style="display: none; align-items: center; gap: 0.75rem;">
+        <span class="badge badge-pincode" style="font-size: 0.8rem;">👨‍⚕️ Medical Officer (Verified)</span>
+        <button class="nav-btn" onclick="handleAdminLogout()" style="background: #fee2e2; color: #ef4444; border: 1px solid #fecaca;">
+          Logout
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+
+    <!-- Screen 1: Hospital Staff Login Gate -->
+    <div id="admin-login-screen" class="login-container">
+      <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔒</div>
+      <h2 style="font-size: 1.4rem; color: #0f172a; margin-bottom: 0.3rem;">Hospital Staff & Doctor Gate</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+        Restricted Access: Authorized healthcare personnel only.
+      </p>
+
+      <form id="admin-login-form" onsubmit="handleAdminLogin(event)">
+        <div class="form-group" style="text-align: left;">
+          <label for="admin-username">Staff Username</label>
+          <input type="text" id="admin-username" class="form-control" placeholder="Enter username (e.g. admin)" required autofocus>
+        </div>
+        <div class="form-group" style="text-align: left;">
+          <label for="admin-password">Security PIN / Password</label>
+          <input type="password" id="admin-password" class="form-control" placeholder="Enter password (e.g. admin123)" required>
+        </div>
+        <div id="admin-login-error" style="color: #ef4444; font-size: 0.85rem; margin-bottom: 1rem; display: none;"></div>
+
+        <button type="submit" class="btn-submit" style="width: 100%;">
+          🔐 Authenticate Staff
+        </button>
+
+        <div style="margin-top: 1.25rem; font-size: 0.78rem; background: #f8fafc; padding: 0.6rem; border-radius: 8px; border: 1px dashed #cbd5e1; color: #64748b;">
+          <strong>Evaluation Credentials:</strong><br>
+          Username: <code style="color: #0284c7;">admin</code> | Password: <code style="color: #0284c7;">admin123</code>
+        </div>
+      </form>
+    </div>
+
+    <!-- Screen 2: Protected Admin Dashboard -->
+    <div id="admin-dashboard" style="display: none;">
+      <div class="hero" style="text-align: left; margin-bottom: 1.5rem; padding: 0;">
+        <h1>Hospital Desk & Clinical Verification</h1>
+        <p>Scan Token ID or enter Aadhaar number to verify patient arrivals, record vaccination, and generate official certificates.</p>
+      </div>
+
+      <!-- Quick Check-in & Search Box -->
+      <div class="search-section" style="max-width: 720px; margin: 0 auto 2.25rem auto;">
+        <h3 style="margin-bottom: 0.75rem; font-size: 1.15rem; color: #0f172a; display: flex; align-items: center; gap: 0.4rem;">
+          <span>⚡</span> Rapid Patient Check-in
+        </h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+          Type or scan the patient's Token ID (e.g., <code>VAC-2026-1001</code>) or 12-digit Aadhaar number:
+        </p>
+        <div style="display: flex; gap: 0.75rem;">
+          <input 
+            type="text" 
+            id="verify-input" 
+            class="form-control" 
+            placeholder="Enter Token ID (e.g. VAC-2026-XXXX) or Aadhaar"
+            onkeypress="if(event.key === 'Enter') verifyPatient()"
+          />
+          <button class="btn-submit" style="width: auto; padding: 0 1.5rem; white-space: nowrap;" onclick="verifyPatient()">
+            Verify & Vaccinate
+          </button>
+        </div>
+        <div id="verify-feedback" style="margin-top: 0.75rem; font-size: 0.9rem; display: none;"></div>
+      </div>
+
+      <!-- Visual Analytics & KPI Dashboard -->
+      <div class="analytics-grid">
+        <!-- Card 1: Vaccine Market Distribution -->
+        <div class="analytics-card">
+          <h4>💉 Vaccine Distribution</h4>
+          <div class="bar-row">
+            <div class="bar-label"><span>Covishield</span><span id="stat-covishield-count">0 (0%)</span></div>
+            <div class="bar-track"><div id="bar-covishield" class="bar-fill blue" style="width: 0%;"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>Covaxin</span><span id="stat-covaxin-count">0 (0%)</span></div>
+            <div class="bar-track"><div id="bar-covaxin" class="bar-fill green" style="width: 0%;"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>Pfizer</span><span id="stat-pfizer-count">0 (0%)</span></div>
+            <div class="bar-track"><div id="bar-pfizer" class="bar-fill purple" style="width: 0%;"></div></div>
+          </div>
+        </div>
+
+        <!-- Card 2: Age Demographics -->
+        <div class="analytics-card">
+          <h4>👥 Patient Age Demographics</h4>
+          <div class="bar-row">
+            <div class="bar-label"><span>Senior Citizens (60+) [Priority]</span><span id="stat-seniors-count">0</span></div>
+            <div class="bar-track"><div id="bar-seniors" class="bar-fill amber" style="width: 0%;"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>Adults (18 - 59)</span><span id="stat-adults-count">0</span></div>
+            <div class="bar-track"><div id="bar-adults" class="bar-fill blue" style="width: 0%;"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>Youth (12 - 17)</span><span id="stat-youth-count">0</span></div>
+            <div class="bar-track"><div id="bar-youth" class="bar-fill green" style="width: 0%;"></div></div>
+          </div>
+        </div>
+
+        <!-- Card 3: Appointment Operational Status -->
+        <div class="analytics-card">
+          <h4>📊 Operational Overview</h4>
+          <div class="bar-row">
+            <div class="bar-label"><span>Vaccinated (Completed)</span><span id="stat-status-vax" style="color: #059669; font-weight: bold;">0</span></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>Active Confirmed Bookings</span><span id="stat-status-conf" style="color: #0284c7; font-weight: bold;">0</span></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>Priority Waitlist</span><span id="stat-status-wait" style="color: #d97706; font-weight: bold;">0</span></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>Cancelled Bookings</span><span id="stat-status-canc" style="color: #dc2626; font-weight: bold;">0</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Real-Time Center Vaccine Inventory & Stock Alerts -->
+      <div class="search-section" style="margin-bottom: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+          <div>
+            <h3 style="font-size: 1.15rem; color: #0f172a; display: flex; align-items: center; gap: 0.4rem;">
+              <span>📦</span> Real-time Center Stock & Inventory Monitor
+            </h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted);">Live dose quotas across all hospital hubs. Automatic alerts when stock drops below 8 doses.</p>
+          </div>
+          <button class="nav-btn" onclick="loadAdminInventory()" style="border: 1px solid var(--border); font-size: 0.8rem; cursor: pointer;">
+            🔄 Refresh Stock
+          </button>
+        </div>
+        <div id="admin-inventory-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Appointments Filter & Actions Bar -->
+      <div class="admin-filter-bar">
+        <div class="admin-search-box">
+          <input 
+            type="text" 
+            id="admin-table-search" 
+            class="form-control" 
+            placeholder="🔍 Filter records by Patient, Token, ID or Hospital..." 
+            oninput="filterAppointmentsTable()"
+          />
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+          <button class="btn-submit" onclick="openWalkinModal()" style="width: auto; padding: 0.5rem 1rem; font-size: 0.85rem; background: #059669; display: inline-flex; align-items: center; gap: 0.4rem;">
+            <span>⚡</span> Emergency Walk-in
+          </button>
+          <button class="nav-btn" onclick="openCapacityModal()" style="border: 1px solid var(--border); background: white; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+            <span>📦</span> Manage Quotas
+          </button>
+          <button class="nav-btn primary" onclick="exportAuditCsv()" style="cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+            📥 Export CSV
+          </button>
+          <button class="nav-btn" onclick="refreshAdminData()" style="border: 1px solid var(--border); cursor: pointer;">
+            🔄 Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- Appointments Table -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Token ID</th>
+              <th>Patient Name</th>
+              <th>Age</th>
+              <th>Hospital & Pincode</th>
+              <th>Vaccine & Dose</th>
+              <th>Slot Time</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="appointments-tbody">
+            <tr><td colspan="8" style="text-align: center; color: var(--text-muted);">Loading appointments...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Digital Vaccination Certificate Modal -->
+  <div id="cert-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 580px;">
+      <div class="modal-header">
+        <h3 style="color: var(--primary);">Official Digital Certificate</h3>
+        <button class="modal-close" onclick="closeCertModal()">&times;</button>
+      </div>
+
+      <div id="printable-certificate" class="cert-card">
+        <div class="cert-header">
+          <div style="font-size: 1.4rem; font-weight: 800; color: #0f172a;">GOVERNMENT HEALTH AUTHORITY</div>
+          <p style="font-size: 0.85rem; color: #64748b;">Certificate for Infectious Disease Immunization</p>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <span class="badge badge-available" style="font-size: 0.9rem; padding: 0.35rem 0.8rem;">VACCINATION COMPLETED</span>
+        </div>
+
+        <div class="receipt-details">
+          <div class="receipt-row"><span>Beneficiary Name:</span><strong id="cert-patient-name">--</strong></div>
+          <div class="receipt-row"><span>Aadhaar / ID:</span><span id="cert-patient-id">--</span></div>
+          <div class="receipt-row"><span>Age / Gender:</span><span id="cert-age">--</span></div>
+          <div class="receipt-row"><span>Vaccine Name:</span><strong id="cert-vaccine">--</strong></div>
+          <div class="receipt-row"><span>Vaccination Center:</span><span id="cert-center">--</span></div>
+          <div class="receipt-row"><span>Date & Timestamp:</span><span id="cert-date">--</span></div>
+          <div class="receipt-row"><span>Certificate Token:</span><strong id="cert-token">--</strong></div>
+        </div>
+
+        <div id="cert-qr-box" class="qr-box" style="margin-top: 1.25rem;"></div>
+        <p style="font-size: 0.72rem; color: #94a3b8; margin-top: 0.5rem;">Secure Digitally Verifiable QR Code</p>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem;">
+        <button class="btn-submit" onclick="window.print()" style="background: #0f172a;">🖨️ Print Certificate</button>
+        <button class="btn-submit" onclick="closeCertModal()" style="background: #e2e8f0; color: #334155;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Emergency Walk-in Direct Registration Modal -->
+  <div id="walkin-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 520px;">
+      <div class="modal-header">
+        <div>
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: #0f172a;">⚡ Direct Walk-in Registration</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Emergency on-site patient intake & immediate vaccination</p>
+        </div>
+        <button class="modal-close" onclick="closeWalkinModal()">&times;</button>
+      </div>
+
+      <form id="walkin-form" onsubmit="submitAdminWalkin(event)">
+        <div class="form-group">
+          <label for="walkin-name">Patient Full Name *</label>
+          <input type="text" id="walkin-name" class="form-control" placeholder="e.g. Ramesh Chandra" required>
+        </div>
+
+        <div class="form-group">
+          <label for="walkin-id">Aadhaar / Govt ID *</label>
+          <input type="text" id="walkin-id" class="form-control" placeholder="12-digit Aadhaar / ID" required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label for="walkin-age">Age *</label>
+            <input type="number" id="walkin-age" class="form-control" placeholder="Years" min="12" max="115" required>
+          </div>
+          <div class="form-group">
+            <label for="walkin-phone">Mobile Phone</label>
+            <input type="tel" id="walkin-phone" class="form-control" placeholder="10-digit number">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label for="walkin-center">Hospital Center *</label>
+            <select id="walkin-center" class="form-control" required onchange="updateWalkinSlotOptions()">
+              <option value="C1">AIIMS New Delhi (Covishield)</option>
+              <option value="C2">Max Super Speciality Saket (Covaxin)</option>
+              <option value="C3">Apollo Hospital Bengaluru (Pfizer)</option>
+              <option value="C4">Manipal Hospital Bengaluru (Covishield)</option>
+              <option value="C5">Lilavati Hospital Mumbai (Covaxin)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="walkin-dose">Dose *</label>
+            <select id="walkin-dose" class="form-control">
+              <option value="1">Dose 1 (Initial)</option>
+              <option value="2">Dose 2 (Follow-up)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group" style="background: #f8fafc; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border);">
+          <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0; cursor: pointer;">
+            <input type="checkbox" id="walkin-autovaccinate" checked style="width: 18px; height: 18px;">
+            <span style="font-size: 0.85rem; font-weight: 600; color: #059669;">Administer & mark as VACCINATED immediately (Issue Certificate Now)</span>
+          </label>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
+          <button type="submit" class="btn-submit" style="background: #059669; flex: 2;">
+            ⚡ Complete Walk-in Registration
+          </button>
+          <button type="button" class="btn-submit" onclick="closeWalkinModal()" style="background: #e2e8f0; color: #334155; flex: 1;">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Slot Capacity & Quota Manager Modal -->
+  <div id="capacity-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 650px;">
+      <div class="modal-header">
+        <div>
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: #0f172a;">📦 Center Slot Quota Manager</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Increase available doses. Waiting patients will be automatically scheduled!</p>
+        </div>
+        <button class="modal-close" onclick="closeCapacityModal()">&times;</button>
+      </div>
+
+      <div id="capacity-center-list" style="display: flex; flex-direction: column; gap: 1rem;">
+        <!-- Filled dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Cancellation Confirmation Modal -->
+  <div id="cancel-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 440px;">
+      <div class="confirm-box">
+        <div class="confirm-icon">⚠️</div>
+        <div class="confirm-title">Cancel Appointment?</div>
+        <div id="cancel-modal-msg" class="confirm-text">
+          Are you sure you want to cancel this booking? If there are waitlisted patients, the slot will be automatically reallocated.
+        </div>
+        <div class="confirm-actions">
+          <button id="cancel-confirm-btn" class="btn-submit" style="background: var(--danger); flex: 1;">
+            Yes, Cancel Booking
+          </button>
+          <button class="btn-submit" onclick="closeCancelModal()" style="background: #e2e8f0; color: #334155; flex: 1;">
+            Keep Appointment
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Floating Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="qrcode.min.js"></script>
+  <script src="app.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      checkAdminAuth();
+    });
+  </script>
+</body>
+</html>

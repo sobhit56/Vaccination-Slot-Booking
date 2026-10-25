@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VaxSlot Connect — Official Vaccination Slot Booking</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <a href="index.html" class="nav-brand">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+      </svg>
+      <span>VaxSlot Connect</span>
+      <span class="badge-dsa">Public Health Portal</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html" class="nav-btn active">Book Slot</a>
+      <button class="nav-btn" onclick="openTrackModal()" style="color: var(--primary); font-weight: 700; background: #e0f2fe; padding: 0.4rem 0.85rem; border-radius: 8px;">
+        <span>🔍</span> Track Booking
+      </button>
+      <a href="#how-it-works" class="nav-btn">How It Works</a>
+      <a href="#faq" class="nav-btn">FAQ & Help</a>
+      <a href="admin.html" class="nav-btn" style="color: #475569; border: 1px solid var(--border); padding: 0.4rem 0.85rem;">
+        <span>🔒</span> Staff Login
+      </a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- Hero Header -->
+    <div class="hero">
+      <div class="hero-pill">
+        <span>🛡️</span> Official Public Vaccination Portal
+      </div>
+      <h1>Book Your Vaccination Appointment</h1>
+      <p>Locate nearby accredited hospitals, choose a convenient time slot, and download your instant digital appointment pass with QR code.</p>
+    </div>
+
+    <!-- How It Works (3 Steps) -->
+    <div id="how-it-works" class="how-it-works-grid">
+      <div class="step-card">
+        <div class="step-badge-num">1</div>
+        <div class="step-card-content">
+          <h3>Find Your Center</h3>
+          <p>Search by 6-digit Pincode or Hospital name, or tap "Nearest Centers" to detect nearby locations.</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-badge-num">2</div>
+        <div class="step-card-content">
+          <h3>Select Preferred Slot</h3>
+          <p>Browse live availability for morning and afternoon slots. Pick a time window that fits your schedule.</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-badge-num">3</div>
+        <div class="step-card-content">
+          <h3>Instant Appointment Pass</h3>
+          <p>Enter patient details to get your verifiable QR token. Show the slip at the hospital check-in counter.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live System Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon blue">🏥</div>
+        <div class="stat-info">
+          <h3 id="stat-centers">--</h3>
+          <p>Active Centers</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green">💉</div>
+        <div class="stat-info">
+          <h3 id="stat-slots">--</h3>
+          <p>Available Slots</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon amber">⏳</div>
+        <div class="stat-info">
+          <h3 id="stat-waitlist">--</h3>
+          <p>Priority Waitlist</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon purple">✅</div>
+        <div class="stat-info">
+          <h3 id="stat-vaccinated">--</h3>
+          <p>Vaccinated Patients</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search & Quick Filters Section -->
+    <div class="search-section">
+      <div class="search-bar-wrapper">
+        <div class="search-input-box">
+          <span class="search-icon-inside">🔍</span>
+          <input 
+            type="text" 
+            id="search-input" 
+            class="search-input" 
+            placeholder="Search by Pincode (e.g. 110029, 560076) or Hospital (AIIMS, Apollo, Max)..."
+            oninput="handleSearchInput()"
+          />
+          <button id="search-clear-btn" class="search-clear-btn" onclick="clearSearchInput()" title="Clear search">&times;</button>
+        </div>
+        <button class="btn-search-action btn-nearest" onclick="findNearestCenters()">
+          <span>📍</span> Nearest Centers
+        </button>
+        <button class="btn-search-action btn-reset" onclick="resetSearch()">
+          Show All
+        </button>
+      </div>
+
+      <!-- Quick Filter Chips -->
+      <div class="quick-filter-bar">
+        <span class="filter-label">Quick Filters:</span>
+        <span class="filter-chip active" id="chip-all" onclick="applyQuickFilter('all')">All Centers</span>
+        <span class="filter-chip" id="chip-delhi" onclick="applyQuickFilter('110029')">📍 Delhi (110029)</span>
+        <span class="filter-chip" id="chip-blr" onclick="applyQuickFilter('560076')">📍 Bengaluru (560076)</span>
+        <span class="filter-chip" id="chip-mum" onclick="applyQuickFilter('400050')">📍 Mumbai (400050)</span>
+        <span class="filter-chip" id="chip-covi" onclick="applyQuickFilter('Covishield')">💉 Covishield</span>
+        <span class="filter-chip" id="chip-covax" onclick="applyQuickFilter('Covaxin')">💉 Covaxin</span>
+        <span class="filter-chip" id="chip-pfizer" onclick="applyQuickFilter('Pfizer')">💉 Pfizer</span>
+      </div>
+
+      <!-- Age Category Filter Bar -->
+      <div class="age-filter-bar">
+        <span class="filter-label" style="font-size: 0.8rem; font-weight: 700; color: #334155;">Age Category:</span>
+        <span class="age-chip active" id="age-all" onclick="applyAgeFilter('all')">All Age Groups</span>
+        <span class="age-chip" id="age-youth" onclick="applyAgeFilter('youth')">🧒 12-17 (Youth)</span>
+        <span class="age-chip" id="age-adults" onclick="applyAgeFilter('adults')">🧑 18-44 (Adults)</span>
+        <span class="age-chip" id="age-presenior" onclick="applyAgeFilter('presenior')">🧓 45+ (Pre-Senior)</span>
+        <span class="age-chip" id="age-senior" onclick="applyAgeFilter('seniors')">⚡ 60+ (Senior Priority)</span>
+      </div>
+
+      <!-- Live Postal Pincode Auto-Detection Card -->
+      <div id="pincode-detected-badge" class="pincode-detected-card" style="display: none;">
+        <div class="pincode-detected-icon">📮</div>
+        <div class="pincode-detected-info">
+          <div class="pincode-detected-title" id="pincode-detected-area">Safdarjung Enclave, South West Delhi</div>
+          <div class="pincode-detected-sub" id="pincode-detected-region">Delhi, India • Verified Postal Circle</div>
+        </div>
+        <span class="badge badge-available" style="font-size: 0.72rem; align-self: center;">Postal API Verified</span>
+      </div>
+
+      <div class="search-helper-text">
+        <span>💡 <strong>Tip:</strong> Results update instantly as you type. If all slots at a hospital are booked, you can join the priority waitlist.</span>
+        <span id="search-count-label" style="font-weight: 600; color: var(--primary);"></span>
+      </div>
+    </div>
+
+    <!-- Centers Header -->
+    <div class="centers-header-row">
+      <h2>
+        <span>🏥</span> Available Vaccination Centers
+        <span id="centers-count" class="centers-count-badge">Loading...</span>
+      </h2>
+    </div>
+
+    <!-- Centers and Slots Container -->
+    <div id="centers-container" class="centers-grid">
+      <!-- Dynamically populated by app.js -->
+    </div>
+
+    <!-- FAQ & Patient Guidance Section -->
+    <div id="faq" class="faq-section">
+      <h2><span>❓</span> Frequently Asked Questions (FAQ)</h2>
+      <p>Common questions and guidelines for your vaccination appointment.</p>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h3>📄 What documents do I need to bring?</h3>
+          <p>Please carry the same government photo ID (Aadhaar Card, Passport, or Voter ID) entered during slot booking, along with your printed or digital appointment slip on your mobile.</p>
+        </div>
+        <div class="faq-item">
+          <h3>⏳ What happens if my preferred slot is full?</h3>
+          <p>You can join the <strong>Priority Waitlist</strong>. When any appointment is cancelled, our system automatically reallocates the slot to waitlisted patients based on clinical priority and senior citizen status.</p>
+        </div>
+        <div class="faq-item">
+          <h3>💉 What is the required gap between Dose 1 & Dose 2?</h3>
+          <p>Clinical rules enforce safety intervals: <strong>Covishield</strong> requires an 84-day gap (12-16 weeks), <strong>Covaxin</strong> requires 28 days (4 weeks), and <strong>Pfizer</strong> requires 21 days (3 weeks).</p>
+        </div>
+        <div class="faq-item">
+          <h3>🛡️ Is there any fee for booking?</h3>
+          <p>No, booking through this portal is completely free. Government-partnered vaccination centers administer approved vaccines under standard national health protocols.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Map Modal -->
+  <div id="map-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 650px;">
+      <div class="modal-header">
+        <div>
+          <h3 id="map-center-name" style="font-size: 1.25rem; font-weight: 700; color: #0f172a;">Center Location</h3>
+          <p id="map-center-address" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">Address</p>
+        </div>
+        <button class="modal-close" onclick="closeMapModal()">&times;</button>
+      </div>
+
+      <div class="map-container">
+        <iframe id="map-iframe" class="map-frame" src="" loading="lazy"></iframe>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+        <span id="map-coords" class="badge badge-pincode">GPS: --</span>
+        <a id="map-directions-btn" href="#" target="_blank" class="btn-search-action btn-nearest" style="text-decoration: none; font-size: 0.85rem; padding: 0.6rem 1.2rem;">
+          🧭 Open Directions in Google Maps
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Booking Modal -->
+  <div id="booking-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: #0f172a;">Book Vaccination Slot</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Please fill out the patient details below</p>
+        </div>
+        <button class="modal-close" onclick="closeBookingModal()">&times;</button>
+      </div>
+
+      <!-- Center & Slot Summary Banner -->
+      <div class="modal-center-recap">
+        <div class="modal-center-recap-left">
+          <h4 id="modal-center-name">Hospital Name</h4>
+          <p id="modal-center-sub">Address</p>
+        </div>
+        <div class="modal-center-recap-right">
+          <span id="modal-slot-time" class="slot-badge">09:00 - 10:00 AM</span>
+        </div>
+      </div>
+
+      <form id="booking-form" onsubmit="submitBooking(event)">
+        <input type="hidden" id="form-center-id">
+        <input type="hidden" id="form-slot-id">
+
+        <!-- Dose Selection -->
+        <div class="form-group">
+          <label>Select Vaccination Dose *</label>
+          <div class="dose-selector">
+            <div id="dose-btn-1" class="dose-card-btn active" onclick="selectDose(1)">
+              <div class="dose-title">💉 Dose 1 (First Dose)</div>
+              <div class="dose-subtitle">Initial immunization</div>
+            </div>
+            <div id="dose-btn-2" class="dose-card-btn" onclick="selectDose(2)">
+              <div class="dose-title">💉 Dose 2 (Follow-up)</div>
+              <div class="dose-subtitle">Second completion dose</div>
+            </div>
+          </div>
+          <input type="hidden" id="form-dose-number" value="1">
+        </div>
+
+        <!-- Dose 1 Date Input (only shown for Dose 2) -->
+        <div id="dose1-date-group" class="form-group" style="display: none;">
+          <label for="form-dose1-date">Date when you received Dose 1 *</label>
+          <input type="date" id="form-dose1-date" class="form-control" onchange="checkDoseInterval()">
+          <div class="form-hint">Our health system checks minimum interval requirements for clinical safety.</div>
+          <div id="dose-interval-feedback" class="interval-feedback"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="form-name">Full Patient Name *</label>
+          <input type="text" id="form-name" class="form-control" placeholder="e.g. Rajesh Kumar" required>
+          <div class="form-hint">Enter the full legal name as it appears on government photo ID.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="form-id">Govt Photo ID / Aadhaar Number *</label>
+          <input type="text" id="form-id" class="form-control" placeholder="12-digit Aadhaar / Passport / Voter ID" required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label for="form-age">Age (Years) *</label>
+            <input type="number" id="form-age" class="form-control" placeholder="e.g. 45" min="12" max="115" required oninput="updatePriorityPreview()">
+          </div>
+          <div class="form-group">
+            <label for="form-phone">Mobile Number *</label>
+            <input type="tel" id="form-phone" class="form-control" placeholder="10-digit Mobile" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="form-pincode">Residential Pincode (Area Auto-Verification)</label>
+          <input type="text" id="form-pincode" class="form-control" placeholder="Enter 6-digit Pincode (e.g. 110029, 560076)" maxlength="6" oninput="handleBookingPincodeInput()">
+          <div id="booking-pincode-feedback" class="form-hint" style="color: var(--primary-dark); font-weight: 600; margin-top: 0.35rem; display: none;"></div>
+        </div>
+
+        <div class="form-group" style="display: flex; align-items: flex-start; gap: 0.65rem; margin-top: 0.5rem; background: #f8fafc; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border);">
+          <input type="checkbox" id="form-comorbidity" style="width: 18px; height: 18px; margin-top: 2px;" onchange="updatePriorityPreview()">
+          <label for="form-comorbidity" style="margin-bottom: 0; font-size: 0.85rem; font-weight: 500; cursor: pointer; color: #334155;">
+            <strong>High-Risk / Medical Condition:</strong> Patient has pre-existing conditions (diabetes, cardiovascular disease, hypertension, or immunocompromised).
+          </label>
+        </div>
+
+        <!-- Patient Priority Assessment -->
+        <div class="priority-preview">
+          <div>⚖️ <strong>Queue Allocation: </strong><span id="preview-priority-score" class="priority-score">Standard Queue</span></div>
+          <div style="font-size: 0.76rem; color: #64748b; margin-top: 0.25rem;">
+            Senior citizens (aged 60+) and medically vulnerable patients receive priority scheduling in case of high demand.
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+          <button type="submit" id="btn-book-submit" class="btn-submit" style="flex: 2;">
+            Confirm & Book Slot
+          </button>
+          <button type="button" class="btn-search-action btn-reset" onclick="closeBookingModal()" style="flex: 1; justify-content: center;">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Official Appointment Slip / Confirmation Modal -->
+  <div id="receipt-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3 style="font-weight: 700; color: var(--success-dark); display: flex; align-items: center; gap: 0.5rem;">
+          <span>✅</span> Slot Booked Successfully!
+        </h3>
+        <button class="modal-close" onclick="closeReceiptModal()">&times;</button>
+      </div>
+
+      <div class="receipt-card">
+        <div class="receipt-header">
+          <h4>NATIONAL HEALTH PORTAL</h4>
+          <p style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px;">Vaccination Appointment Pass</p>
+        </div>
+
+        <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #64748b;">Appointment Token ID</p>
+        <div id="receipt-token" class="receipt-token">VAC-2026-XXXX</div>
+
+        <!-- Rendered QR Code -->
+        <div id="qrcode-box" class="qr-box"></div>
+        <p style="font-size: 0.75rem; color: #64748b;">Present this QR code at the hospital check-in counter</p>
+
+        <div class="receipt-details">
+          <div class="receipt-row"><span>Patient Name:</span><strong id="receipt-patient">--</strong></div>
+          <div class="receipt-row"><span>Patient Mobile:</span><strong id="receipt-mobile-row">+91 --</strong></div>
+          <div class="receipt-row"><span>Govt Photo ID:</span><span id="receipt-id">--</span></div>
+          <div class="receipt-row"><span>Vaccination Center:</span><strong id="receipt-center">--</strong></div>
+          <div class="receipt-row"><span>Vaccine & Dose:</span><span id="receipt-vaccine" class="badge badge-vaccine">--</span></div>
+          <div class="receipt-row"><span>Date & Slot Time:</span><strong id="receipt-time">--</strong></div>
+          <div class="receipt-row"><span>Status:</span><span class="badge badge-available">CONFIRMED</span></div>
+        </div>
+
+        <div class="receipt-checklist">
+          <strong>Important Instructions:</strong>
+          <ul>
+            <li>Please carry your original Photo ID for verification.</li>
+            <li>Arrive 10 minutes prior to your allocated time slot.</li>
+            <li>Wear a protective face mask while inside hospital premises.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Direct Patient Notification Dispatch (To Booked Patient's Mobile) -->
+      <div style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 10px; padding: 0.85rem; margin-bottom: 1rem; text-align: center;">
+        <div style="font-size: 0.8rem; font-weight: 700; color: #166534; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem;">
+          <span>📲</span> Receive Pass on Patient's Phone (+91 <span id="receipt-phone-display">Mobile</span>)
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <a id="receipt-whatsapp-link" href="#" target="_blank" class="btn-submit" style="background: #25D366; text-decoration: none; padding: 0.65rem 0.85rem; font-size: 0.82rem; flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;">
+            <span>🟢</span> Send to WhatsApp
+          </a>
+          <a id="receipt-sms-link" href="#" class="btn-submit" style="background: #0284c7; text-decoration: none; padding: 0.65rem 0.85rem; font-size: 0.82rem; flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;">
+            <span>💬</span> Send via Mobile SMS
+          </a>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem;">
+        <button class="btn-submit" onclick="window.print()" style="background: #0f172a; flex: 1;">
+          🖨️ Print Appointment Slip
+        </button>
+        <button class="btn-submit" onclick="closeReceiptModal()" style="background: #f1f5f9; color: #334155; border: 1px solid var(--border); flex: 1;">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Track My Booking Modal -->
+  <div id="track-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 540px;">
+      <div class="modal-header">
+        <div>
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: #0f172a;">Track My Appointment</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Enter your Token ID or Aadhaar / Mobile number</p>
+        </div>
+        <button class="modal-close" onclick="closeTrackModal()">&times;</button>
+      </div>
+
+      <div style="margin-bottom: 1.25rem;">
+        <div style="display: flex; gap: 0.5rem;">
+          <input 
+            type="text" 
+            id="track-search-input" 
+            class="form-control" 
+            placeholder="Token ID (VAC-2026-XXXX) or Aadhaar" 
+            onkeypress="if(event.key === 'Enter') executeTrackBooking()"
+          />
+          <button class="btn-search-action btn-nearest" onclick="executeTrackBooking()" style="padding: 0 1.2rem;">
+            Search
+          </button>
+        </div>
+        <div class="form-hint">Tip: You can use the Token ID from your appointment confirmation slip.</div>
+      </div>
+
+      <!-- Result Card -->
+      <div id="track-result-box" style="display: none;">
+        <!-- Filled dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Digital Vaccination Certificate Modal for Patients -->
+  <div id="cert-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 580px;">
+      <div class="modal-header">
+        <h3 style="color: var(--primary);">Official Digital Certificate</h3>
+        <button class="modal-close" onclick="closeCertModal()">&times;</button>
+      </div>
+
+      <div id="printable-certificate" class="cert-card" style="border: 3px double #0284c7; border-radius: 12px; padding: 2rem; background: #ffffff; text-align: center; margin-bottom: 1.5rem;">
+        <div class="cert-header" style="border-bottom: 2px solid #e2e8f0; padding-bottom: 1rem; margin-bottom: 1.5rem;">
+          <div style="font-size: 1.4rem; font-weight: 800; color: #0f172a;">GOVERNMENT HEALTH AUTHORITY</div>
+          <p style="font-size: 0.85rem; color: #64748b;">Certificate for Infectious Disease Immunization</p>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <span class="badge badge-available" style="font-size: 0.9rem; padding: 0.35rem 0.8rem;">VACCINATION COMPLETED</span>
+        </div>
+
+        <div class="receipt-details">
+          <div class="receipt-row"><span>Beneficiary Name:</span><strong id="cert-patient-name">--</strong></div>
+          <div class="receipt-row"><span>Aadhaar / ID:</span><span id="cert-patient-id">--</span></div>
+          <div class="receipt-row"><span>Age / Gender:</span><span id="cert-age">--</span></div>
+          <div class="receipt-row"><span>Vaccine Name:</span><strong id="cert-vaccine">--</strong></div>
+          <div class="receipt-row"><span>Vaccination Center:</span><span id="cert-center">--</span></div>
+          <div class="receipt-row"><span>Date & Timestamp:</span><span id="cert-date">--</span></div>
+          <div class="receipt-row"><span>Certificate Token:</span><strong id="cert-token">--</strong></div>
+        </div>
+
+        <div id="cert-qr-box" class="qr-box" style="margin-top: 1.25rem;"></div>
+        <p style="font-size: 0.72rem; color: #94a3b8; margin-top: 0.5rem;">Secure Digitally Verifiable QR Code</p>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem;">
+        <button class="btn-submit" onclick="window.print()" style="background: #0f172a;">🖨️ Print Certificate</button>
+        <button class="btn-submit" onclick="closeCertModal()" style="background: #e2e8f0; color: #334155;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reschedule Slot Modal -->
+  <div id="reschedule-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 500px;">
+      <div class="modal-header">
+        <div>
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: #0f172a;">🔄 Reschedule Appointment</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Choose a new date or time slot</p>
+        </div>
+        <button class="modal-close" onclick="closeRescheduleModal()">&times;</button>
+      </div>
+
+      <form id="reschedule-form" onsubmit="submitReschedule(event)">
+        <input type="hidden" id="reschedule-token-id">
+
+        <div style="background:#f8fafc; border:1px solid var(--border); border-radius:10px; padding:0.85rem 1rem; margin-bottom:1.25rem;">
+          <div style="font-size:0.75rem; text-transform:uppercase; color:#64748b; font-weight:700;">Current Booking</div>
+          <div id="reschedule-current-desc" style="font-size:0.9rem; font-weight:700; color:#0f172a; margin-top:0.2rem;">--</div>
+        </div>
+
+        <div class="form-group">
+          <label for="reschedule-date">New Preferred Date *</label>
+          <input type="date" id="reschedule-date" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label for="reschedule-slot-select">Select New Time Slot *</label>
+          <select id="reschedule-slot-select" class="form-control" required>
+            <option value="S1">09:00 AM - 10:00 AM (Morning)</option>
+            <option value="S2">10:00 AM - 11:00 AM (Morning)</option>
+            <option value="S3">11:00 AM - 12:00 PM (Midday)</option>
+            <option value="S4">02:00 PM - 03:00 PM (Afternoon)</option>
+            <option value="S5">03:00 PM - 04:00 PM (Evening)</option>
+          </select>
+          <div class="form-hint">Your previous slot will be safely freed up for waiting patients.</div>
+        </div>
+
+        <div style="display:flex; gap:0.75rem; margin-top:1.5rem;">
+          <button type="submit" class="btn-submit" style="background:var(--primary); flex:2;">
+            Confirm Reschedule
+          </button>
+          <button type="button" class="btn-submit" onclick="closeRescheduleModal()" style="background:#f1f5f9; color:#334155; border:1px solid var(--border); flex:1;">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Simulated Phone / SMS Notification Floating Popup Wrapper -->
+  <div id="sms-popup-wrapper" class="sms-popup-wrapper"></div>
+
+  <!-- Simulated Phone Notification Drawer / Message Center -->
+  <div id="sms-drawer" class="sms-drawer-overlay" onclick="if(event.target === this) toggleSmsDrawer()">
+    <div class="sms-drawer-panel">
+      <div class="sms-drawer-header">
+        <div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; color: #0f172a;">💬 SMS & WhatsApp Alerts</h3>
+          <p style="font-size: 0.78rem; color: #64748b;">Simulated real-time carrier dispatch feed</p>
+        </div>
+        <button class="modal-close" onclick="toggleSmsDrawer()">&times;</button>
+      </div>
+      <div id="sms-drawer-list" class="sms-drawer-list">
+        <div style="text-align:center; padding:2rem; color:#94a3b8; font-size:0.85rem;">
+          No notifications received yet.<br>Book an appointment or look up your token to see simulated alerts!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Floating Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <p>© 2026 VaxSlot Connect — Public Health & Clinical Vaccination Platform. All Rights Reserved.</p>
+  </footer>
+
+  <script src="qrcode.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
