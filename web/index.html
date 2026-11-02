@@ -3,6 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <script>
+    try {
+      const savedTheme = localStorage.getItem("color-scheme");
+      if (savedTheme) {
+        document.querySelector('meta[name="color-scheme"]').content = savedTheme;
+      }
+    } catch (e) {}
+  </script>
   <title>VaxSlot Connect — Official Vaccination Slot Booking</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -19,14 +28,19 @@
     </a>
     <nav class="nav-links">
       <a href="index.html" class="nav-btn active">Book Slot</a>
-      <button class="nav-btn" onclick="openTrackModal()" style="color: var(--primary); font-weight: 700; background: #e0f2fe; padding: 0.4rem 0.85rem; border-radius: 8px;">
+      <button class="nav-btn" onclick="openTrackModal()" style="color: var(--primary); font-weight: 700; background: var(--primary-light); padding: 0.4rem 0.85rem; border-radius: 8px;">
         <span>🔍</span> Track Booking
       </button>
       <a href="#how-it-works" class="nav-btn">How It Works</a>
       <a href="#faq" class="nav-btn">FAQ & Help</a>
-      <a href="admin.html" class="nav-btn" style="color: #475569; border: 1px solid var(--border); padding: 0.4rem 0.85rem;">
+      <a href="admin.html" class="nav-btn" style="color: var(--text-muted); border: 1px solid var(--border); padding: 0.4rem 0.85rem;">
         <span>🔒</span> Staff Login
       </a>
+      <button id="theme-toggle-btn" class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle dark mode">
+        <span class="theme-icon-light" aria-hidden="true">☀️</span>
+        <span class="theme-icon-dark" aria-hidden="true">🌙</span>
+        <span class="theme-text">Theme</span>
+      </button>
     </nav>
   </header>
 

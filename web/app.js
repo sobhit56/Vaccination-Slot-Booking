@@ -1694,3 +1694,50 @@ async function submitAiMessage(userText) {
 
   list.scrollTop = list.scrollHeight;
 }
+
+// --- Modern Color Scheme & Dark Mode Switcher ---
+function toggleTheme() {
+  const meta = document.querySelector('meta[name="color-scheme"]');
+  if (!meta) return;
+
+  const systemIsDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const currentContent = meta.content || 'light dark';
+
+  // Determine currently rendered theme
+  let currentTheme = 'light';
+  if (currentContent === 'dark') {
+    currentTheme = 'dark';
+  } else if (currentContent === 'light') {
+    currentTheme = 'light';
+  } else {
+    currentTheme = systemIsDark ? 'dark' : 'light';
+  }
+
+  // Target opposite theme
+  const targetTheme = (currentTheme === 'dark') ? 'light' : 'dark';
+
+  // If target matches system preference, remove stored value (return to system default)
+  if ((targetTheme === 'dark' && systemIsDark) || (targetTheme === 'light' && !systemIsDark)) {
+    try {
+      localStorage.removeItem('color-scheme');
+    } catch (e) {}
+    meta.content = 'light dark';
+    showToast('Theme Updated', 'Switched to System Default Theme', 'info');
+  } else {
+    try {
+      localStorage.setItem('color-scheme', targetTheme);
+    } catch (e) {}
+    meta.content = targetTheme;
+    showToast('Theme Updated', targetTheme === 'dark' ? 'Dark Mode Enabled 🌙' : 'Light Mode Enabled ☀️', 'info');
+  }
+}
+
+// Synchronize theme changes across open browser tabs
+window.addEventListener('storage', (e) => {
+  if (e.key === 'color-scheme') {
+    const meta = document.querySelector('meta[name="color-scheme"]');
+    if (meta) {
+      meta.content = e.newValue || 'light dark';
+    }
+  }
+});
