@@ -289,7 +289,7 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
           <div class="form-group">
             <label for="form-age">Age (Years) *</label>
-            <input type="number" id="form-age" class="form-control" placeholder="e.g. 45" min="12" max="115" required oninput="updatePriorityPreview()">
+            <input type="number" id="form-age" class="form-control" placeholder="e.g. 45" min="12" max="115" required>
           </div>
           <div class="form-group">
             <label for="form-phone">Mobile Number *</label>
@@ -307,21 +307,6 @@
           <label for="form-pincode">Residential Pincode (Area Auto-Verification)</label>
           <input type="text" id="form-pincode" class="form-control" placeholder="Enter 6-digit Pincode (e.g. 110029, 560076)" maxlength="6" oninput="handleBookingPincodeInput()">
           <div id="booking-pincode-feedback" class="form-hint" style="color: var(--primary-dark); font-weight: 600; margin-top: 0.35rem; display: none;"></div>
-        </div>
-
-        <div class="form-group" style="display: flex; align-items: flex-start; gap: 0.65rem; margin-top: 0.5rem; background: #f8fafc; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border);">
-          <input type="checkbox" id="form-comorbidity" style="width: 18px; height: 18px; margin-top: 2px;" onchange="updatePriorityPreview()">
-          <label for="form-comorbidity" style="margin-bottom: 0; font-size: 0.85rem; font-weight: 500; cursor: pointer; color: #334155;">
-            <strong>High-Risk / Medical Condition:</strong> Patient has pre-existing conditions (diabetes, cardiovascular disease, hypertension, or immunocompromised).
-          </label>
-        </div>
-
-        <!-- Patient Priority Assessment -->
-        <div class="priority-preview">
-          <div>⚖️ <strong>Queue Allocation: </strong><span id="preview-priority-score" class="priority-score">Standard Queue</span></div>
-          <div style="font-size: 0.76rem; color: #64748b; margin-top: 0.25rem;">
-            Senior citizens (aged 60+) and medically vulnerable patients receive priority scheduling in case of high demand.
-          </div>
         </div>
 
         <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">

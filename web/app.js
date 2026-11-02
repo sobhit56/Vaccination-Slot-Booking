@@ -525,21 +525,21 @@ function handleBookingPincodeInput() {
 }
 
 function updatePriorityPreview() {
-  const age = parseInt(document.getElementById('form-age').value) || 30;
-  const comorbidity = document.getElementById('form-comorbidity').checked;
+  const scoreEl = document.getElementById('preview-priority-score');
+  if (!scoreEl) return;
+
+  const age = parseInt(document.getElementById('form-age')?.value) || 30;
+  const comorbidity = document.getElementById('form-comorbidity')?.checked || false;
 
   let score = age >= 60 ? (age * 2) : age;
   if (comorbidity) score += 50;
 
-  const scoreEl = document.getElementById('preview-priority-score');
-  if (scoreEl) {
-    if (score >= 120) {
-      scoreEl.innerHTML = '<span style="color:#0369a1;">Priority Queue ⚡ (Senior Citizen / Medical Care)</span>';
-    } else if (score >= 60) {
-      scoreEl.innerHTML = '<span style="color:#0284c7;">Priority Queue (Senior Citizen)</span>';
-    } else {
-      scoreEl.innerHTML = '<span style="color:#059669;">Standard Queue</span>';
-    }
+  if (score >= 120) {
+    scoreEl.innerHTML = '<span style="color:#0369a1;">Priority Queue ⚡ (Senior Citizen / Medical Care)</span>';
+  } else if (score >= 60) {
+    scoreEl.innerHTML = '<span style="color:#0284c7;">Priority Queue (Senior Citizen)</span>';
+  } else {
+    scoreEl.innerHTML = '<span style="color:#059669;">Standard Queue</span>';
   }
 }
 
@@ -551,7 +551,7 @@ async function submitBooking(e) {
   const age = parseInt(document.getElementById('form-age').value);
   const phone = document.getElementById('form-phone').value.trim();
   const email = document.getElementById('form-email')?.value.trim() || '';
-  const hasComorbidity = document.getElementById('form-comorbidity').checked;
+  const hasComorbidity = document.getElementById('form-comorbidity')?.checked || false;
   const centerId = document.getElementById('form-center-id').value;
   const slotId = document.getElementById('form-slot-id').value;
   const doseNumber = parseInt(document.getElementById('form-dose-number').value) || 1;
