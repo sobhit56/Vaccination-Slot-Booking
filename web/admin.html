@@ -97,7 +97,7 @@
       <a href="index.html" class="nav-btn">← Public Portal</a>
       <div id="admin-user-nav" style="display: none; align-items: center; gap: 0.75rem;">
         <span class="badge badge-pincode" style="font-size: 0.8rem;">👨‍⚕️ Medical Officer (Verified)</span>
-        <button class="nav-btn" onclick="handleAdminLogout()" style="background: #fee2e2; color: #ef4444; border: 1px solid #fecaca;">
+        <button class="nav-btn" onclick="handleAdminLogout()" style="background: var(--danger-light); color: var(--danger); border: 1px solid var(--border);">
           Logout
         </button>
       </div>
@@ -114,7 +114,7 @@
     <!-- Screen 1: Hospital Staff Login Gate -->
     <div id="admin-login-screen" class="login-container">
       <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔒</div>
-      <h2 style="font-size: 1.4rem; color: #0f172a; margin-bottom: 0.3rem;">Hospital Staff & Doctor Gate</h2>
+      <h2 style="font-size: 1.4rem; color: var(--text-main); margin-bottom: 0.3rem;">Hospital Staff & Doctor Gate</h2>
       <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
         Restricted Access: Authorized healthcare personnel only.
       </p>
@@ -128,15 +128,15 @@
           <label for="admin-password">Security PIN / Password</label>
           <input type="password" id="admin-password" class="form-control" placeholder="Enter password (e.g. admin123)" required>
         </div>
-        <div id="admin-login-error" style="color: #ef4444; font-size: 0.85rem; margin-bottom: 1rem; display: none;"></div>
+        <div id="admin-login-error" style="color: var(--danger); font-size: 0.85rem; margin-bottom: 1rem; display: none;"></div>
 
         <button type="submit" class="btn-submit" style="width: 100%;">
           🔐 Authenticate Staff
         </button>
 
-        <div style="margin-top: 1.25rem; font-size: 0.78rem; background: #f8fafc; padding: 0.6rem; border-radius: 8px; border: 1px dashed #cbd5e1; color: #64748b;">
+        <div style="margin-top: 1.25rem; font-size: 0.78rem; background: var(--bg-subtle); padding: 0.6rem; border-radius: 8px; border: 1px dashed var(--border); color: var(--text-muted);">
           <strong>Evaluation Credentials:</strong><br>
-          Username: <code style="color: #0284c7;">admin</code> | Password: <code style="color: #0284c7;">admin123</code>
+          Username: <code style="color: var(--primary);">admin</code> | Password: <code style="color: var(--primary);">admin123</code>
         </div>
       </form>
     </div>
@@ -150,7 +150,7 @@
 
       <!-- Quick Check-in & Search Box -->
       <div class="search-section" style="max-width: 720px; margin: 0 auto 2.25rem auto;">
-        <h3 style="margin-bottom: 0.75rem; font-size: 1.15rem; color: #0f172a; display: flex; align-items: center; gap: 0.4rem;">
+        <h3 style="margin-bottom: 0.75rem; font-size: 1.15rem; color: var(--text-main); display: flex; align-items: center; gap: 0.4rem;">
           <span>⚡</span> Rapid Patient Check-in
         </h3>
         <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
@@ -229,7 +229,7 @@
       <div class="search-section" style="margin-bottom: 2rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
           <div>
-            <h3 style="font-size: 1.15rem; color: #0f172a; display: flex; align-items: center; gap: 0.4rem;">
+            <h3 style="font-size: 1.15rem; color: var(--text-main); display: flex; align-items: center; gap: 0.4rem;">
               <span>📦</span> Real-time Center Stock & Inventory Monitor
             </h3>
             <p style="font-size: 0.82rem; color: var(--text-muted);">Live dose quotas across all hospital hubs. Automatic alerts when stock drops below 8 doses.</p>
@@ -255,10 +255,10 @@
           />
         </div>
         <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
-          <button class="btn-submit" onclick="openWalkinModal()" style="width: auto; padding: 0.5rem 1rem; font-size: 0.85rem; background: #059669; display: inline-flex; align-items: center; gap: 0.4rem;">
+          <button class="btn-submit" onclick="openWalkinModal()" style="width: auto; padding: 0.5rem 1rem; font-size: 0.85rem; background: var(--success-dark); display: inline-flex; align-items: center; gap: 0.4rem;">
             <span>⚡</span> Emergency Walk-in
           </button>
-          <button class="nav-btn" onclick="openCapacityModal()" style="border: 1px solid var(--border); background: white; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+          <button class="nav-btn" onclick="openCapacityModal()" style="border: 1px solid var(--border); background: var(--bg-card); color: var(--text-main); cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
             <span>📦</span> Manage Quotas
           </button>
           <button class="nav-btn primary" onclick="exportAuditCsv()" style="cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
@@ -304,8 +304,8 @@
 
       <div id="printable-certificate" class="cert-card">
         <div class="cert-header">
-          <div style="font-size: 1.4rem; font-weight: 800; color: #0f172a;">GOVERNMENT HEALTH AUTHORITY</div>
-          <p style="font-size: 0.85rem; color: #64748b;">Certificate for Infectious Disease Immunization</p>
+          <div style="font-size: 1.4rem; font-weight: 800; color: var(--text-main);">GOVERNMENT HEALTH AUTHORITY</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Certificate for Infectious Disease Immunization</p>
         </div>
 
         <div style="margin-bottom: 1.5rem;">
@@ -323,12 +323,12 @@
         </div>
 
         <div id="cert-qr-box" class="qr-box" style="margin-top: 1.25rem;"></div>
-        <p style="font-size: 0.72rem; color: #94a3b8; margin-top: 0.5rem;">Secure Digitally Verifiable QR Code</p>
+        <p style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.5rem;">Secure Digitally Verifiable QR Code</p>
       </div>
 
       <div style="display: flex; gap: 0.75rem;">
-        <button class="btn-submit" onclick="window.print()" style="background: #0f172a;">🖨️ Print Certificate</button>
-        <button class="btn-submit" onclick="closeCertModal()" style="background: #e2e8f0; color: #334155;">Close</button>
+        <button class="btn-submit" onclick="window.print()" style="background: var(--primary);">🖨️ Print Certificate</button>
+        <button class="btn-submit" onclick="closeCertModal()" style="background: var(--bg-subtle); color: var(--text-main); border: 1px solid var(--border);">Close</button>
       </div>
     </div>
   </div>
@@ -338,7 +338,7 @@
     <div class="modal-content" style="max-width: 520px;">
       <div class="modal-header">
         <div>
-          <h3 style="font-size: 1.25rem; font-weight: 700; color: #0f172a;">⚡ Direct Walk-in Registration</h3>
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);">⚡ Direct Walk-in Registration</h3>
           <p style="font-size: 0.85rem; color: var(--text-muted);">Emergency on-site patient intake & immediate vaccination</p>
         </div>
         <button class="modal-close" onclick="closeWalkinModal()">&times;</button>
@@ -386,18 +386,18 @@
           </div>
         </div>
 
-        <div class="form-group" style="background: #f8fafc; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border);">
+        <div class="form-group" style="background: var(--bg-subtle); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border);">
           <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0; cursor: pointer;">
             <input type="checkbox" id="walkin-autovaccinate" checked style="width: 18px; height: 18px;">
-            <span style="font-size: 0.85rem; font-weight: 600; color: #059669;">Administer & mark as VACCINATED immediately (Issue Certificate Now)</span>
+            <span style="font-size: 0.85rem; font-weight: 600; color: var(--success-dark);">Administer & mark as VACCINATED immediately (Issue Certificate Now)</span>
           </label>
         </div>
 
         <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
-          <button type="submit" class="btn-submit" style="background: #059669; flex: 2;">
+          <button type="submit" class="btn-submit" style="background: var(--success-dark); flex: 2;">
             ⚡ Complete Walk-in Registration
           </button>
-          <button type="button" class="btn-submit" onclick="closeWalkinModal()" style="background: #e2e8f0; color: #334155; flex: 1;">
+          <button type="button" class="btn-submit" onclick="closeWalkinModal()" style="background: var(--bg-subtle); color: var(--text-main); border: 1px solid var(--border); flex: 1;">
             Cancel
           </button>
         </div>
@@ -410,7 +410,7 @@
     <div class="modal-content" style="max-width: 650px;">
       <div class="modal-header">
         <div>
-          <h3 style="font-size: 1.25rem; font-weight: 700; color: #0f172a;">📦 Center Slot Quota Manager</h3>
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);">📦 Center Slot Quota Manager</h3>
           <p style="font-size: 0.85rem; color: var(--text-muted);">Increase available doses. Waiting patients will be automatically scheduled!</p>
         </div>
         <button class="modal-close" onclick="closeCapacityModal()">&times;</button>
@@ -435,7 +435,7 @@
           <button id="cancel-confirm-btn" class="btn-submit" style="background: var(--danger); flex: 1;">
             Yes, Cancel Booking
           </button>
-          <button class="btn-submit" onclick="closeCancelModal()" style="background: #e2e8f0; color: #334155; flex: 1;">
+          <button class="btn-submit" onclick="closeCancelModal()" style="background: var(--bg-subtle); color: var(--text-main); border: 1px solid var(--border); flex: 1;">
             Keep Appointment
           </button>
         </div>

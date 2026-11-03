@@ -111,9 +111,9 @@ function renderCenters(centers) {
 
   if (centers.length === 0) {
     container.innerHTML = `
-      <div style="grid-column: 1/-1; text-align: center; background: white; border: 1px dashed var(--border); border-radius: 12px; padding: 3.5rem 1rem;">
+      <div style="grid-column: 1/-1; text-align: center; background: var(--bg-card); border: 1px dashed var(--border); border-radius: 12px; padding: 3.5rem 1rem;">
         <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔍</div>
-        <h3 style="font-size: 1.15rem; color: #0f172a; margin-bottom: 0.3rem;">No Centers Found</h3>
+        <h3 style="font-size: 1.15rem; color: var(--text-main); margin-bottom: 0.3rem;">No Centers Found</h3>
         <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">No vaccination centers matched your search query.</p>
         <button class="btn-search-action btn-reset" onclick="resetSearch()" style="display: inline-flex;">
           View All Centers
@@ -968,13 +968,13 @@ function renderAppointmentsTable(appts) {
 
     let actionButtons = '';
     if (isVaccinated) {
-      actionButtons = `<button class="nav-btn" style="padding: 0.3rem 0.6rem; font-size: 0.78rem; background: #e0f2fe; color: #0369a1; cursor: pointer;" onclick='openCertModal(${JSON.stringify(a)})'>📜 Certificate</button>`;
+      actionButtons = `<button class="nav-btn" style="padding: 0.3rem 0.6rem; font-size: 0.78rem; background: var(--primary-light); color: var(--primary); border: 1px solid var(--border); cursor: pointer;" onclick='openCertModal(${JSON.stringify(a)})'>📜 Certificate</button>`;
     } else if (isCancelled) {
-      actionButtons = `<span style="color: #94a3b8; font-size: 0.75rem;">Cancelled</span>`;
+      actionButtons = `<span style="color: var(--text-muted); font-size: 0.75rem;">Cancelled</span>`;
     } else {
       actionButtons = `
         <button class="nav-btn primary" style="padding: 0.3rem 0.6rem; font-size: 0.78rem; cursor: pointer;" onclick="verifyPatientByToken('${a.tokenId}')">💉 Vaccinate</button>
-        <button class="nav-btn" style="padding: 0.3rem 0.6rem; font-size: 0.78rem; background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; cursor: pointer; margin-left: 0.3rem;" onclick="cancelAppointment('${a.tokenId}')">❌ Cancel</button>
+        <button class="nav-btn" style="padding: 0.3rem 0.6rem; font-size: 0.78rem; background: var(--danger-light); color: var(--danger); border: 1px solid var(--border); cursor: pointer; margin-left: 0.3rem;" onclick="cancelAppointment('${a.tokenId}')">❌ Cancel</button>
       `;
     }
 
@@ -1127,14 +1127,14 @@ async function executeTrackBooking() {
     if (data.status === 'WAITLISTED') {
       const entry = data.waitlist;
       resultBox.innerHTML = `
-        <div style="background:#fffbeb; border:1.5px solid #fde68a; border-radius:12px; padding:1.25rem;">
+        <div style="background:var(--warning-light); border:1.5px solid var(--warning); border-radius:12px; padding:1.25rem;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
-            <span class="badge" style="background:#fef3c7; color:#b45309; font-weight:700;">PRIORITY WAITLIST</span>
-            <span style="font-size:0.82rem; font-weight:700; color:#b45309;">Position #${data.waitlistPosition} in Queue</span>
+            <span class="badge" style="background:var(--warning-light); color:var(--warning); border:1px solid var(--border); font-weight:700;">PRIORITY WAITLIST</span>
+            <span style="font-size:0.82rem; font-weight:700; color:var(--warning);">Position #${data.waitlistPosition} in Queue</span>
           </div>
-          <h4 style="font-size:1.1rem; color:#0f172a; margin-bottom:0.3rem;">${escapeHtml(entry.patientName)}</h4>
-          <p style="font-size:0.85rem; color:#64748b; margin-bottom:0.6rem;">📍 Center: <strong>${escapeHtml(entry.centerName)}</strong> • Slot: ${escapeHtml(entry.slotTime)}</p>
-          <div style="background:white; border-radius:8px; padding:0.65rem; font-size:0.8rem; color:#475569; border:1px dashed #cbd5e1;">
+          <h4 style="font-size:1.1rem; color:var(--text-main); margin-bottom:0.3rem;">${escapeHtml(entry.patientName)}</h4>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.6rem;">📍 Center: <strong>${escapeHtml(entry.centerName)}</strong> • Slot: ${escapeHtml(entry.slotTime)}</p>
+          <div style="background:var(--bg-card); border-radius:8px; padding:0.65rem; font-size:0.8rem; color:var(--text-main); border:1px dashed var(--border);">
             ⚡ <strong>Auto-Promotion Active:</strong> Because of our priority Max-Heap scheduler, you will be automatically assigned to this slot immediately when any patient cancels!
           </div>
         </div>
@@ -1152,30 +1152,30 @@ async function executeTrackBooking() {
       : '<span class="badge badge-vaccine">CONFIRMED</span>';
 
     resultBox.innerHTML = `
-      <div style="background:#ffffff; border:1.5px solid var(--border); border-radius:12px; padding:1.25rem; box-shadow:var(--shadow-sm);">
+      <div style="background:var(--bg-card); border:1.5px solid var(--border); border-radius:12px; padding:1.25rem; box-shadow:var(--shadow-sm);">
         <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:0.5rem;">
           <div>
-            <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.8px; color:#64748b;">Token ID</div>
+            <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.8px; color:var(--text-muted);">Token ID</div>
             <strong style="font-size:1.2rem; color:var(--primary); font-family:monospace;">${a.tokenId}</strong>
           </div>
           ${badge}
         </div>
-        <div style="font-size:0.95rem; font-weight:700; color:#0f172a; margin:0.4rem 0 0.2rem 0;">${escapeHtml(a.patientName)} (Age: ${a.patientAge})</div>
-        <div style="font-size:0.85rem; color:#64748b; margin-bottom:0.75rem;">
+        <div style="font-size:0.95rem; font-weight:700; color:var(--text-main); margin:0.4rem 0 0.2rem 0;">${escapeHtml(a.patientName)} (Age: ${a.patientAge})</div>
+        <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.75rem;">
           🏥 ${escapeHtml(a.centerName)} • 💉 ${a.vaccineType} (Dose ${a.doseNumber || 1})<br>
           📅 Date: <strong>${a.date}</strong> | ⏰ Slot: <strong>${a.slotTime}</strong>
         </div>
         <div style="display:flex; gap:0.5rem; margin-top:0.75rem; flex-wrap:wrap;">
-          <button class="btn-submit" style="background:#0f172a; padding:0.5rem 0.85rem; font-size:0.85rem; flex:1;" onclick='showReceiptModal(${JSON.stringify(a)})'>
+          <button class="btn-submit" style="background:var(--primary); padding:0.5rem 0.85rem; font-size:0.85rem; flex:1;" onclick='showReceiptModal(${JSON.stringify(a)})'>
             🖨️ View Appointment Pass
           </button>
           ${(!isVax && !isCanc) ? `
-            <button class="btn-submit" style="background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd; padding:0.5rem 0.85rem; font-size:0.85rem; flex:1;" onclick='openRescheduleModal(${JSON.stringify(a)})'>
+            <button class="btn-submit" style="background:var(--primary-light); color:var(--primary); border:1px solid var(--border); padding:0.5rem 0.85rem; font-size:0.85rem; flex:1;" onclick='openRescheduleModal(${JSON.stringify(a)})'>
               🔄 Reschedule Slot
             </button>
           ` : ''}
           ${isVax ? `
-            <button class="btn-submit" style="background:#0284c7; padding:0.5rem 0.85rem; font-size:0.85rem; flex:1;" onclick='openCertModal(${JSON.stringify(a)})'>
+            <button class="btn-submit" style="background:var(--primary); padding:0.5rem 0.85rem; font-size:0.85rem; flex:1;" onclick='openCertModal(${JSON.stringify(a)})'>
               📜 View Certificate
             </button>
           ` : ''}
@@ -1264,20 +1264,20 @@ async function openCapacityModal() {
     const centers = await res.json();
 
     listContainer.innerHTML = centers.map(c => `
-      <div style="background:#f8fafc; border:1px solid var(--border); border-radius:10px; padding:1rem;">
+      <div style="background:var(--bg-subtle); border:1px solid var(--border); border-radius:10px; padding:1rem;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
           <div>
-            <strong style="font-size:0.95rem; color:#0f172a;">${escapeHtml(c.name)}</strong>
+            <strong style="font-size:0.95rem; color:var(--text-main);">${escapeHtml(c.name)}</strong>
             <span class="badge badge-vaccine" style="margin-left:0.4rem;">${c.vaccineType}</span>
           </div>
           <span class="badge badge-available">${c.totalAvailable} total slots open</span>
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
           ${c.slots.map(s => `
-            <div style="background:white; border:1px solid #e2e8f0; border-radius:8px; padding:0.6rem; display:flex; justify-content:space-between; align-items:center;">
+            <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:0.6rem; display:flex; justify-content:space-between; align-items:center;">
               <div>
-                <div style="font-size:0.8rem; font-weight:700;">${s.timeWindow}</div>
-                <div style="font-size:0.75rem; color:${s.availableCount > 0 ? '#059669' : '#b45309'}; font-weight:600;">
+                <div style="font-size:0.8rem; font-weight:700; color:var(--text-main);">${s.timeWindow}</div>
+                <div style="font-size:0.75rem; color:${s.availableCount > 0 ? 'var(--success)' : 'var(--warning)'}; font-weight:600;">
                   ${s.availableCount} / ${s.totalCapacity} Available
                 </div>
               </div>
@@ -1412,7 +1412,7 @@ function updateSmsDrawerList() {
         <span>${item.platform === 'whatsapp' ? '🟢 WhatsApp Broadcast' : '💬 Carrier SMS (TX-VAXSLOT)'}</span>
         <span>${item.timestamp}</span>
       </div>
-      <div style="font-weight:700; font-size:0.88rem; color:#0f172a; margin-bottom:0.25rem;">
+      <div style="font-weight:700; font-size:0.88rem; color:var(--text-main); margin-bottom:0.25rem;">
         ${escapeHtml(item.title)}
       </div>
       <div class="sms-bubble-content">
@@ -1545,11 +1545,11 @@ async function loadAdminInventory() {
         : `<span class="badge-stock-ok">✅ Healthy Quota (${c.totalAvailable} Available)</span>`;
 
       return `
-        <div style="background:white; border:1.5px solid ${isLowStock ? '#fca5a5' : 'var(--border)'}; border-radius:12px; padding:1.1rem; box-shadow:var(--shadow-sm);">
+        <div style="background:var(--bg-card); border:1.5px solid ${isLowStock ? 'var(--danger)' : 'var(--border)'}; border-radius:12px; padding:1.1rem; box-shadow:var(--shadow-sm);">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:0.5rem; gap:0.5rem;">
             <div>
-              <strong style="font-size:0.95rem; color:#0f172a;">${escapeHtml(c.name)}</strong>
-              <div style="font-size:0.8rem; color:#64748b;">📍 ${escapeHtml(c.district)} (${c.pincode})</div>
+              <strong style="font-size:0.95rem; color:var(--text-main);">${escapeHtml(c.name)}</strong>
+              <div style="font-size:0.8rem; color:var(--text-muted);">📍 ${escapeHtml(c.district)} (${c.pincode})</div>
             </div>
             <span class="badge badge-vaccine">${c.vaccineType}</span>
           </div>
@@ -1558,8 +1558,8 @@ async function loadAdminInventory() {
             ${statusPill}
           </div>
 
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.75rem; padding-top:0.6rem; border-top:1px dashed #e2e8f0;">
-            <span style="font-size:0.75rem; color:#64748b;">Automated replenishment:</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.75rem; padding-top:0.6rem; border-top:1px dashed var(--border);">
+            <span style="font-size:0.75rem; color:var(--text-muted);">Automated replenishment:</span>
             <button class="nav-btn primary" style="padding:0.35rem 0.75rem; font-size:0.75rem; cursor:pointer;" onclick="quickRestockCenter('${c.id}', 20)">
               📦 Restock (+20 Doses)
             </button>

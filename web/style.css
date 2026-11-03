@@ -505,14 +505,14 @@ body {
 /* Live Postal API Auto-Detection Card */
 .pincode-detected-card {
   margin-top: 1rem;
-  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-  border: 1.5px solid #bae6fd;
+  background: var(--primary-light);
+  border: 1.5px solid var(--border);
   border-radius: 10px;
   padding: 0.85rem 1.15rem;
   display: flex;
   align-items: center;
   gap: 0.85rem;
-  box-shadow: 0 2px 4px rgba(2, 132, 199, 0.08);
+  box-shadow: var(--shadow-sm);
   animation: fadeInDown 0.25s ease-out;
 }
 
@@ -533,18 +533,18 @@ body {
 .pincode-detected-title {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #0369a1;
+  color: var(--primary);
 }
 
 .pincode-detected-sub {
   font-size: 0.82rem;
-  color: #475569;
+  color: var(--text-muted);
   margin-top: 0.15rem;
 }
 
 .search-helper-text {
   font-size: 0.82rem;
-  color: #64748b;
+  color: var(--text-muted);
   margin-top: 0.75rem;
   display: flex;
   align-items: center;
@@ -562,7 +562,7 @@ body {
 .centers-header-row h2 {
   font-size: 1.35rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-main);
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -571,8 +571,9 @@ body {
 .centers-count-badge {
   font-size: 0.82rem;
   font-weight: 600;
-  background: #e2e8f0;
-  color: #334155;
+  background: var(--bg-subtle);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
   padding: 0.2rem 0.6rem;
   border-radius: 6px;
 }
@@ -598,7 +599,7 @@ body {
 
 .center-card:hover {
   box-shadow: var(--shadow-md);
-  border-color: #cbd5e1;
+  border-color: var(--border-focus);
 }
 
 .center-header {
@@ -608,7 +609,7 @@ body {
 .center-title {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-main);
   margin-bottom: 0.35rem;
 }
 
@@ -636,15 +637,15 @@ body {
   gap: 0.3rem;
 }
 
-.badge-vaccine { background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; }
-.badge-pincode { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
-.badge-available { background: var(--success-light); color: #065f46; border: 1px solid #a7f3d0; }
-.badge-distance { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+.badge-vaccine { background: var(--primary-light); color: var(--primary); border: 1px solid var(--border); }
+.badge-pincode { background: var(--bg-subtle); color: var(--text-muted); border: 1px solid var(--border); }
+.badge-available { background: var(--success-light); color: var(--success); border: 1px solid var(--success); }
+.badge-distance { background: var(--warning-light); color: var(--warning); border: 1px solid var(--border); }
 
 .btn-map {
-  background: #f0f9ff;
-  color: #0284c7;
-  border: 1px solid #bae6fd;
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 0.35rem 0.75rem;
   font-size: 0.78rem;
@@ -658,7 +659,7 @@ body {
 }
 
 .btn-map:hover {
-  background: #0284c7;
+  background: var(--primary);
   color: white;
 }
 
@@ -774,7 +775,9 @@ body {
 }
 
 .modal-content {
-  background: white;
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   width: 100%;
   max-width: 540px;
@@ -801,8 +804,8 @@ body {
 }
 
 .modal-close {
-  background: #f1f5f9;
-  border: none;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -816,14 +819,14 @@ body {
 }
 
 .modal-close:hover {
-  background: #e2e8f0;
-  color: #0f172a;
+  background: var(--border);
+  color: var(--text-main);
 }
 
 /* Booking Center Summary Card inside Modal */
 .modal-center-recap {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
   border-radius: 10px;
   padding: 0.85rem 1rem;
   margin-bottom: 1.25rem;
@@ -835,7 +838,7 @@ body {
 .modal-center-recap-left h4 {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-main);
 }
 
 .modal-center-recap-left p {
@@ -848,8 +851,9 @@ body {
 }
 
 .modal-center-recap-right .slot-badge {
-  background: #e0f2fe;
-  color: #0369a1;
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid var(--border);
   font-weight: 700;
   font-size: 0.8rem;
   padding: 0.25rem 0.6rem;
@@ -866,7 +870,7 @@ body {
   font-size: 0.875rem;
   font-weight: 600;
   margin-bottom: 0.4rem;
-  color: #334155;
+  color: var(--text-main);
 }
 
 .form-control {
@@ -888,7 +892,7 @@ body {
 
 .form-hint {
   font-size: 0.78rem;
-  color: #64748b;
+  color: var(--text-muted);
   margin-top: 0.3rem;
 }
 
@@ -904,34 +908,34 @@ body {
   border: 2px solid var(--border);
   border-radius: 10px;
   padding: 0.75rem;
-  background: white;
+  background: var(--bg-card);
   cursor: pointer;
   text-align: left;
   transition: all 0.2s ease;
 }
 
 .dose-card-btn:hover {
-  border-color: #cbd5e1;
+  border-color: var(--border-focus);
 }
 
 .dose-card-btn.active {
   border-color: var(--primary);
-  background: #f0f9ff;
+  background: var(--primary-light);
 }
 
 .dose-card-btn .dose-title {
   font-weight: 700;
   font-size: 0.9rem;
-  color: #0f172a;
+  color: var(--text-main);
 }
 
 .dose-card-btn.active .dose-title {
-  color: var(--primary-dark);
+  color: var(--primary);
 }
 
 .dose-card-btn .dose-subtitle {
   font-size: 0.75rem;
-  color: #64748b;
+  color: var(--text-muted);
   margin-top: 0.2rem;
 }
 
@@ -946,28 +950,29 @@ body {
 
 .interval-eligible {
   background: var(--success-light);
-  color: #065f46;
-  border: 1px solid #a7f3d0;
+  color: var(--success);
+  border: 1px solid var(--success);
 }
 
 .interval-ineligible {
   background: var(--danger-light);
-  color: #991b1b;
-  border: 1px solid #fecaca;
+  color: var(--danger);
+  border: 1px solid var(--danger);
 }
 
 .priority-preview {
-  background: #f8fafc;
-  border: 1.5px dashed #cbd5e1;
+  background: var(--bg-subtle);
+  border: 1.5px dashed var(--border);
   border-radius: 10px;
   padding: 0.85rem 1rem;
   margin-bottom: 1.25rem;
   font-size: 0.85rem;
+  color: var(--text-main);
 }
 
 .priority-score {
   font-weight: 700;
-  color: #0284c7;
+  color: var(--primary);
 }
 
 .btn-submit {
@@ -1456,14 +1461,15 @@ footer.main-footer {
 }
 
 .sms-drawer-panel {
-  background: #ffffff;
+  background: var(--bg-card);
   width: 100%;
   max-width: 400px;
   height: 100vh;
-  box-shadow: -4px 0 25px rgba(0, 0, 0, 0.15);
+  box-shadow: -4px 0 25px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
   animation: drawerSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border-left: 1px solid var(--border);
 }
 
 @keyframes drawerSlideIn {
@@ -1477,7 +1483,7 @@ footer.main-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f8fafc;
+  background: var(--bg-subtle);
 }
 
 .sms-drawer-list {
@@ -1490,7 +1496,7 @@ footer.main-footer {
 }
 
 .sms-bubble-card {
-  background: #f8fafc;
+  background: var(--bg-subtle);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1rem;
@@ -1507,7 +1513,7 @@ footer.main-footer {
 
 .sms-bubble-content {
   font-size: 0.85rem;
-  color: #1e293b;
+  color: var(--text-main);
   line-height: 1.45;
 }
 
@@ -1533,13 +1539,13 @@ footer.main-footer {
 }
 
 .age-chip {
-  background: #ffffff;
+  background: var(--bg-card);
   border: 1.5px solid var(--border);
   border-radius: 8px;
   padding: 0.35rem 0.85rem;
   font-size: 0.82rem;
   font-weight: 600;
-  color: #475569;
+  color: var(--text-muted);
   cursor: pointer;
   transition: all 0.2s ease;
   user-select: none;
@@ -1552,16 +1558,16 @@ footer.main-footer {
 }
 
 .age-chip.active {
-  background: #0f172a;
+  background: var(--primary);
   color: #ffffff;
-  border-color: #0f172a;
+  border-color: var(--primary);
 }
 
 /* Low Stock Inventory Badges (Admin) */
 .badge-low-stock {
-  background: #fee2e2;
-  color: #dc2626;
-  border: 1px solid #fecaca;
+  background: var(--danger-light);
+  color: var(--danger);
+  border: 1px solid var(--danger);
   font-weight: 700;
   padding: 0.25rem 0.6rem;
   border-radius: 6px;
@@ -1575,9 +1581,9 @@ footer.main-footer {
 }
 
 .badge-stock-ok {
-  background: #dcfce7;
-  color: #15803d;
-  border: 1px solid #bbf7d0;
+  background: var(--success-light);
+  color: var(--success);
+  border: 1px solid var(--success);
   font-weight: 600;
   padding: 0.25rem 0.6rem;
   border-radius: 6px;
