@@ -141,41 +141,4 @@ Double-click `run.bat` in the project root folder. It will:
    * **Patient Portal**: `http://localhost:8080/index.html`
    * **Admin / Doctor Portal**: `http://localhost:8080/admin.html`
 
----
 
-## 📊 Data Structures & Algorithms (Viva / Exam Guide)
-
-| Feature | Data Structure / Algorithm | Time Complexity | Purpose |
-| :--- | :--- | :--- | :--- |
-| **Search Autocomplete** | **Trie (Prefix Tree)** | $O(L)$ where $L = \text{length of query}$ | Rapid lookup of Centers by Pincode or Name as user types. |
-| **Nearest Center on Map** | **Haversine Spherical Distance** | $O(N \log N)$ | Calculates geographical distance & ranks centers closest to user GPS. |
-| **Priority Waitlist** | **Max-Heap** | $O(\log N)$ Insert / Extract | Prioritizing elderly patients (60+) & high-risk comorbidities. |
-| **Rush-Hour Queue** | **Circular Queue (Ring Buffer)** | $O(1)$ Enqueue / Dequeue | Fair FCFS processing during appointment rush hours. |
-| **Patient / Token Lookup** | **Hash Table (HashMap)** | $O(1)$ Average | Instant verification of Aadhaar IDs and appointment tokens. |
-| **Dose Interval Validation** | **Interval Scheduler Engine** | $O(1)$ | Enforces clinical MoHFW gap rules between doses (84d/28d/21d). |
-| **Anti-Double Booking** | **Mutex (`ReentrantLock`)** | $O(1)$ | Eliminates race conditions for final slot availability. |
-
----
-
-## 🎓 Teacher & Viva Questions Preparation
-
-**Q1: Where did you store the data?**
-> *"We used a two-tier storage model. In runtime, data lives in Java in-memory Data Structures (Trie, Heap, HashMap) for sub-millisecond lookups. Whenever a change occurs, Java automatically persists it to human-readable JSON files in the `data/` directory on the local disk."*
-
-**Q2: How did you implement the Priority Queue?**
-> *"Instead of relying purely on high-level libraries, we built a custom Max-Heap in `src/dsa/PriorityWaitlist.java` using `siftUp()` and `siftDown()` methods. It calculates a priority score based on age and comorbidity factors."*
-
-**Q3: How does the system prevent two users from booking the same slot simultaneously?**
-> *"In `BookingService.java`, slot allocation is wrapped in a `ReentrantLock` (Mutex). The capacity check, slot counter decrement, and token generation execute as an atomic transaction."*
-
-**Q4: How does the Trie search work?**
-> *"Each node in `Trie.java` contains child nodes for characters and a set of pointers to matching `Center` objects. When a user enters a prefix like `1100`, the algorithm traverses down 4 nodes and directly retrieves all matching centers in $O(L)$ time, regardless of how many centers exist."*
-
-**Q5: How does the Map and Nearest Center feature work?**
-> *"In `src/dsa/GeoDistance.java`, we implemented the Haversine Great-Circle Distance Algorithm to calculate real-world spherical distances over the Earth's curvature ($R = 6371\text{ km}$) from the user's GPS coordinates to each center. The UI displays an interactive map modal for each location and allows one-click route directions in Google Maps."*
-
-**Q6: How does the Clinical Interval Scheduler protect patient safety?**
-> *"In `src/dsa/IntervalScheduler.java`, we enforce national clinical intervals (Covishield: 84 days, Covaxin: 28 days, Pfizer: 21 days). If a patient attempts to book Dose 2 prematurely, the engine rejects the invalid booking and computes the earliest eligible date in $O(1)$ time."*
-
-**Q7: How is the Admin/Doctor Portal secured against unauthorized patient access?**
-> *"We implemented Role-Based Access Control (RBAC). Patients only have access to slot searching and booking. The Admin Portal (`admin.html`) is protected by a Staff Authentication Gate. In the Java backend, the `/api/appointments` and `/api/verify` endpoints require an authorized Bearer session token. Any unauthenticated attempt immediately returns HTTP 401 Unauthorized."*
