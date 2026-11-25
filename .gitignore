@@ -32,3 +32,16 @@ desktop.ini
 # ==========================================
 .env
 .env.local
+
+# ==========================================
+# Reports, Presentations & Generation Scripts
+# ==========================================
+*.pdf
+*.pptx
+*Presentation*
+*Report*
+generate_pptx.py
+web/*presentation*
+web/*Report*
+web/*presentation.html
+web/*Report*.html
