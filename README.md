@@ -1,9 +1,9 @@
 # 🏥 Vaccination Slot Booking System (VaxSlot Connect)
 
-A production-grade, full-featured **Vaccination Slot Booking & Hospital Capacity Management System** built for college and engineering evaluations. It combines **in-memory Data Structures & Algorithms (DSA) in Java 25** with a **modern, responsive web interface (HTML5, CSS3, JavaScript)**, Microsoft Azure Cloud hosting, and local disk JSON persistence.
+A production-grade, full-featured **Vaccination Slot Booking & Hospital Capacity Management System** built for college and engineering evaluations. It combines **in-memory Data Structures & Algorithms (DSA) in pure Java 21 (LTS)** with a **modern, responsive web interface (HTML5, CSS3, JavaScript)**, Microsoft Azure Cloud hosting, and local disk JSON persistence.
 
 > 🌐 **Live Public URL:** [https://vaxslot-india-sobhit.azurewebsites.net](https://vaxslot-india-sobhit.azurewebsites.net)  
-> 📋 **Project Version:** `v1.4.0` | 📝 **Detailed History:** See [CHANGELOG.md](file:///c:/Users/sumit%20kumar/OneDrive/Desktop/Vaccination%20Slot%20Booking/CHANGELOG.md)
+> 📋 **Project Version:** `v1.5.0` | 📝 **Detailed History:** See [CHANGELOG.md](CHANGELOG.md)
 
 ---
 
@@ -11,6 +11,7 @@ A production-grade, full-featured **Vaccination Slot Booking & Hospital Capacity
 
 | Version | Release Date | Key Milestones & Capabilities Added |
 | :--- | :--- | :--- |
+| **`v1.5.0`** | 2026-11-23 | **System-Aware Dark / Light Theme Engine**, Automated Email Pass Dispatch, WCAG Color Contrast Fixes |
 | **`v1.4.0`** | 2026-10-25 | **Microsoft Azure Live Cloud Hosting**, Aarogya AI Clinical Assistant, 32 Pan-India Hospitals, Dynamic Patient Storage |
 | **`v1.3.0`** | 2026-10-25 | Fast2SMS Gateway Integration, Direct WhatsApp & SMS Pass Generation, Hospital Walk-in Desk, Live Low-Stock Inventory Monitor |
 | **`v1.2.0`** | 2026-10-25 | "Track My Booking" Self-Service Portal, 1-Click Slot Rescheduling, Aadhaar & Dose Interval Validation Guards |
@@ -22,46 +23,51 @@ A production-grade, full-featured **Vaccination Slot Booking & Hospital Capacity
 ## 🌟 Key Features & Architecture Highlights
 
 1. **Instant Autocomplete Search (Trie - Prefix Tree)**:
-   * Real-time search across Pincodes (e.g., `110029`, `560076`), Hospital names (e.g., `AIIMS`, `Apollo`), and Districts.
+   * Real-time search across Pincodes (e.g., `110029`, `201301`), Hospital names (e.g., `AIIMS`, `Apollo`, `Fortis`), and Districts.
    * Search time complexity: **$O(L)$** (where $L$ is query length).
    * Live execution metrics (nodes traversed and $\mu s$ elapsed) viewable in the Technical Inspector.
 
 2. **Priority Allocation & Automatic Waitlist Promotion (Max-Heap)**:
-   * When slots fill up, patients join an in-memory **Max-Heap** ordered by age and comorbidity clinical factors.
-   * **Automatic Promotion on Cancellation**: When an appointment is cancelled, the system executes **`extractMax()`** to immediately promote the highest-priority waiting patient!
+   * When slots fill up, patients join an in-memory **Max-Heap** ordered by age and clinical factors.
+   * **Automatic Promotion on Cancellation**: When an appointment is cancelled, the system executes **`extractMax()`** in $O(\log N)$ to immediately auto-promote the highest-priority waiting patient!
    * Heap operations: Insert $O(\log N)$, Extract Max $O(\log N)$, Peek $O(1)$.
 
-3. **Live Indian Postal Pincode Auto-Resolution API**:
-   * Integrated with official Indian Postal data (`https://api.postalpincode.in`).
-   * Automatically displays verified District, Taluk, and Circle when users enter their residential 6-digit pincode.
+3. **System-Aware Dark / Light Mode Toggle**:
+   * Modern accessible theme switcher with automatic OS preference detection and persistent user overrides via `localStorage`.
+   * High-contrast healthcare color palette meeting WCAG accessibility standards across cards, badges, and modals.
 
-4. **Patient Self-Service "Track My Booking" & 1-Click Rescheduling**:
+4. **Multi-Channel Digital Pass Dispatch (SMS, Email & WhatsApp)**:
+   * Automated background SMS notification engine via **Fast2SMS**.
+   * Direct **Email Confirmation Pass** dispatch with token instructions.
+   * One-click **"Send to WhatsApp"** and **"Open in Mobile SMS"** buttons on the digital appointment slip for instant zero-cost delivery.
+
+5. **Live Indian Postal Pincode Auto-Resolution API**:
+   * Integrated with official Indian Postal data (`https://api.postalpincode.in`).
+   * Automatically resolves District, Taluk, and Circle when users enter their residential 6-digit pincode.
+
+6. **Patient Self-Service "Track My Booking" & 1-Click Rescheduling**:
    * Patients can enter their Token ID, 10-digit Mobile, or 12-digit Aadhaar to check status, view waitlist ranking, or reprint passes.
    * Allows 1-click slot shifting to alternative open slots at the same center.
 
-5. **Fast2SMS Gateway & Direct WhatsApp Digital Pass**:
-   * Automated background SMS notification engine via **Fast2SMS**.
-   * One-click **"Send to WhatsApp"** and **"Open in Mobile SMS"** buttons on the digital appointment slip for instant zero-cost delivery.
-
-6. **Hospital Walk-In Desk & Dynamic Quota Manager (Admin)**:
+7. **Hospital Walk-In Desk & Dynamic Quota Manager (Admin)**:
    * Hospital staff can bypass queues to register emergency walk-ins and elderly citizens directly.
    * Real-time slot quota replenishment without server restarts.
 
-7. **Real-time Vaccine Inventory & Low-Stock Alerts**:
+8. **Real-time Vaccine Inventory & Low-Stock Alerts**:
    * Admin dashboard tracks dose stock by hospital and vaccine brand (Covishield, Covaxin, Pfizer).
    * Pulsing visual warnings for hospitals with critically low stock (< 8 doses).
 
-8. **Dose 2 Clinical Interval Safety Algorithm**:
-   * Enforces mandatory vaccine intervals (Covishield: 84 days, Covaxin: 28 days, Pfizer: 21 days).
+9. **Dose 2 Clinical Interval Safety Algorithm**:
+   * Enforces mandatory vaccine intervals (Covishield: 84 days, Covaxin: 28 days, Pfizer: 21 days) via `IntervalScheduler.java`.
    * Prevents premature vaccination and duplicate bookings for the same dose.
 
-9. **Interactive Map & Haversine Proximity**:
-   * Computes spherical geographical distances using the **Haversine Formula** ($R = 6371\text{ km}$) and sorts centers by proximity to user GPS.
+10. **Interactive Map & Haversine Proximity**:
+    * Computes spherical geographical distances using the **Haversine Formula** ($R = 6371\text{ km}$) in `GeoDistance.java` and sorts centers by proximity to user GPS.
 
-10. **Anti-Double Booking & Concurrency Locking (Mutex)**:
-    * Eliminates race conditions during rush hours using Java `ReentrantLock`.
+11. **Anti-Double Booking & Concurrency Locking (Mutex)**:
+    * Eliminates race conditions during rush hours using Java `ReentrantLock` in `BookingService.java`.
 
-11. **RBAC Staff Verification Desk & Digital Certificates**:
+12. **RBAC Staff Verification Desk & Digital Certificates**:
     * Protected by Staff Authentication credentials (`admin` / `admin123`).
     * QR Code scanning, vaccination status marking, and printable official certificates.
 
@@ -74,7 +80,7 @@ Vaccination Slot Booking/
 │
 ├── bin/                               <-- Compiled Java bytecode (.class files)
 │
-├── src/                               <-- Pure Java source code
+├── src/                               <-- Pure Java 21 source code
 │   ├── Main.java                      <-- Java HTTP Server (com.sun.net.httpserver)
 │   ├── model/
 │   │   ├── Center.java                <-- Vaccine center & slot details
@@ -85,7 +91,9 @@ Vaccination Slot Booking/
 │   │   ├── Trie.java                  <-- Prefix Tree for instant Pincode & Name search
 │   │   ├── PriorityWaitlist.java      <-- Custom Max-Heap for priority allocation
 │   │   ├── CircularQueue.java         <-- Ring buffer queue for rush-hour virtual room
-│   │   └── FastLookup.java            <-- O(1) Hash Map index for patient & token lookup
+│   │   ├── FastLookup.java            <-- O(1) Hash Map index for patient & token lookup
+│   │   ├── GeoDistance.java           <-- Haversine great-circle distance algorithm
+│   │   └── IntervalScheduler.java     <-- Clinical MoHFW interval gap validator
 │   ├── service/
 │   │   ├── BookingService.java        <-- Concurrency lock, booking workflow & verification
 │   │   └── DataStore.java             <-- In-memory state & disk auto-save (data/ folder)
@@ -95,7 +103,7 @@ Vaccination Slot Booking/
 ├── web/                               <-- Modern Frontend (HTML, CSS, JavaScript)
 │   ├── index.html                     <-- Patient booking portal & live DSA inspector
 │   ├── admin.html                     <-- Doctor/Admin verification desk & certificates
-│   ├── style.css                      <-- Clean healthcare UI & responsive styling
+│   ├── style.css                      <-- Clean healthcare UI, theme engine & responsive styling
 │   ├── app.js                         <-- Client logic, fetch API, & event handlers
 │   └── qrcode.min.js                  <-- Standalone pure JS QR code generator
 │
@@ -105,6 +113,8 @@ Vaccination Slot Booking/
 │   └── appointments.json
 │
 ├── run.bat                            <-- 1-Click compile & launch script for Windows
+├── Dockerfile                         <-- Container definition for Azure App Service
+├── CHANGELOG.md                       <-- Full feature release log
 └── README.md                          <-- Documentation & Viva preparation guide
 ```
 
@@ -142,6 +152,7 @@ Double-click `run.bat` in the project root folder. It will:
 | **Priority Waitlist** | **Max-Heap** | $O(\log N)$ Insert / Extract | Prioritizing elderly patients (60+) & high-risk comorbidities. |
 | **Rush-Hour Queue** | **Circular Queue (Ring Buffer)** | $O(1)$ Enqueue / Dequeue | Fair FCFS processing during appointment rush hours. |
 | **Patient / Token Lookup** | **Hash Table (HashMap)** | $O(1)$ Average | Instant verification of Aadhaar IDs and appointment tokens. |
+| **Dose Interval Validation** | **Interval Scheduler Engine** | $O(1)$ | Enforces clinical MoHFW gap rules between doses (84d/28d/21d). |
 | **Anti-Double Booking** | **Mutex (`ReentrantLock`)** | $O(1)$ | Eliminates race conditions for final slot availability. |
 
 ---
@@ -163,5 +174,8 @@ Double-click `run.bat` in the project root folder. It will:
 **Q5: How does the Map and Nearest Center feature work?**
 > *"In `src/dsa/GeoDistance.java`, we implemented the Haversine Great-Circle Distance Algorithm to calculate real-world spherical distances over the Earth's curvature ($R = 6371\text{ km}$) from the user's GPS coordinates to each center. The UI displays an interactive map modal for each location and allows one-click route directions in Google Maps."*
 
-**Q6: How is the Admin/Doctor Portal secured against unauthorized patient access?**
+**Q6: How does the Clinical Interval Scheduler protect patient safety?**
+> *"In `src/dsa/IntervalScheduler.java`, we enforce national clinical intervals (Covishield: 84 days, Covaxin: 28 days, Pfizer: 21 days). If a patient attempts to book Dose 2 prematurely, the engine rejects the invalid booking and computes the earliest eligible date in $O(1)$ time."*
+
+**Q7: How is the Admin/Doctor Portal secured against unauthorized patient access?**
 > *"We implemented Role-Based Access Control (RBAC). Patients only have access to slot searching and booking. The Admin Portal (`admin.html`) is protected by a Staff Authentication Gate. In the Java backend, the `/api/appointments` and `/api/verify` endpoints require an authorized Bearer session token. Any unauthenticated attempt immediately returns HTTP 401 Unauthorized."*
